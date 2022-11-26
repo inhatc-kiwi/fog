@@ -11,8 +11,10 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import com.fog.config.auth.PrincipalDetails;
+import com.fog.config.oauth.provider.FacebookUserInfo;
 import com.fog.config.oauth.provider.GoogleUserInfo;
 import com.fog.config.oauth.provider.KakaoUserInfo;
+import com.fog.config.oauth.provider.NaverUserInfo;
 import com.fog.config.oauth.provider.OAuth2UserInfo;
 import com.fog.member.constant.Role;
 import com.fog.member.entity.Member;
@@ -48,9 +50,16 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 		} else if(userRequest.getClientRegistration().getRegistrationId().equals("kakao")) {
 			System.out.println("카카오 로그인 요청입니다.");
 			oauth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
+		} else if(userRequest.getClientRegistration().getRegistrationId().equals("facebook")) {
+			System.out.println("페이스북 로그인 요청입니다.");
+			oauth2UserInfo = new FacebookUserInfo(oAuth2User.getAttributes());
+		} 
+		else if(userRequest.getClientRegistration().getRegistrationId().equals("naver")) {
+			System.out.println("네이버 로그인 요청입니다.");
+			oauth2UserInfo = new NaverUserInfo((Map)oAuth2User.getAttributes().get("response"));
 		}
 		else  {
-			System.out.println("구글,카카오만 지원합니다!");
+			System.out.println("구글,카카오,네이버,페이스북만 지원합니다!");
 		}
 		
 		String provider = oauth2UserInfo.getProvider(); // google
@@ -73,9 +82,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 					.providerId(providerId)
 					.role(Role.ADMIN)
 					.name(name)
-					.cash(0)
-					.level(1)
-					.point(100)
 					.image(image)
 					.build();
 			memberRepository.save(memberEntity);

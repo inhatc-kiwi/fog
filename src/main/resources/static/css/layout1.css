@@ -2,7 +2,7 @@ html {
 	position: relative;
 	min-height: 100%;
 	margin: 0;
-	background-color:#C6F1E7;
+	background-color:white;
 }
 
 body {
@@ -10,20 +10,19 @@ body {
 }
 
 .footer {
-	position: absolute;
 	left: 0;
 	right: 0;
 	bottom: 0;
 	width: 100%;
 	padding: 15px 0;
-	text-align: center;
+	margin-left : 340px;
 }
 
 .content {
 	margin-bottom: 30px;
-	margin-top: 50px;
-	margin-left: 200px;
-	margin-right: 200px;
+	margin-top: 0px;
+	margin-left: 100px;
+	margin-right:100px;
 }
 
 * {

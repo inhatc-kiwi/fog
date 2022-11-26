@@ -44,7 +44,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 			String email = principalDetails.getMember().getEmail();
 			
 			if(bnum != null) {
-				response.sendRedirect("/");
+				response.sendRedirect("/members/mypage");
 			} else {
 				response.sendRedirect("/members/login/addInfo");
 			}

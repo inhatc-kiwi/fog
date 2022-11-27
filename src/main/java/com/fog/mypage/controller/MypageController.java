@@ -18,13 +18,16 @@ public class MypageController {
 	public String mypageCategory(Model model) {
 		return "/mypage/mypageCategory";
 	}
-	
-	
+
 	// 마이페이지 - 포그 관리
 	@GetMapping("/fogEdit")
 	public String mypageFogEdit(Model model) {
 		return "/mypage/mypageFogEdit";
 	}
-	
-	
+
+	// 마이페이지 - 설정
+	@GetMapping("/setting")
+	public String mypageSetting(Model model) {
+		return "/mypage/mypageSetting";
+	}
 }

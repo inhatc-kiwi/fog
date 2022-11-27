@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MypageController {
 
+	
 	// 마이페이지 - 카테고리 관리
 	@GetMapping("/category")
 	public String mypageCategory(Model model) {
@@ -29,5 +30,4 @@ public class MypageController {
 	public String mypageSetting(Model model) {
 		return "/mypage/mypageSetting";
 	}
-
 }

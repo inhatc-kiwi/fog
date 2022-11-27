@@ -12,9 +12,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.fog.member.constant.Address;
-import com.fog.member.constant.Bank;
-import com.fog.member.constant.Gender;
+import com.fog.member.constant.Area;
 import com.fog.member.constant.Role;
 import com.fog.member.dto.MemberFormDto;
 import com.fog.member.dto.OauthAddInfoDto;
@@ -49,32 +47,13 @@ public class Member extends BaseEntity {
     private String password;
     
     
-    // 주소
+    // 분야
     @Enumerated(EnumType.STRING)
-    @Column(name="member_address")
-    private Address address;
+    @Column(name="member_area")
+    private Area area;
     
-    // 핸드폰 번호
-    @Column(name="member_pnum")
-    private String pnum;
     
-    // 생년월일
-    @Column(name="member_birthday")
-    private String birthday;
     
-    // 성별
-    @Enumerated(EnumType.STRING)
-    @Column(name="member_gender")
-    private Gender gender;
-    
-    // 계좌은행
-    @Enumerated(EnumType.STRING)
-    @Column(name="member_bname")
-    private Bank bname;
-    
-    // 계좌번호
-    @Column(name="member_bnumber")
-    private String bnumber;
 
     // enum 타입은 기본적으로 순서가 저장되는데 순서가 바뀌면 문제가 생기므로 STRING 옵션 설정한다.
     @Enumerated(EnumType.STRING)
@@ -86,16 +65,7 @@ public class Member extends BaseEntity {
     @Column(unique = true)
     // OAuth로그인한 내 계정에 대한 Id
     private String providerId;
-    
-    // 마일리지 
-    private int kiwicash;
-    
-    // 레벨
-    private int level;
-    
-    // 매너점수
-    private int point;
-    
+
     // 프로필 사진
     private String image;
     
@@ -109,27 +79,16 @@ public class Member extends BaseEntity {
         Member member = new Member();
         member.setName(memberFormDto.getName());
         member.setEmail(memberFormDto.getEmail());
-        member.setAddress(memberFormDto.getAddress());
+        member.setArea(memberFormDto.getArea());
         String password = passwordEncoder.encode(memberFormDto.getPassword());
         member.setPassword(password);
         member.setRole(Role.ADMIN);
-        member.setPnum(memberFormDto.getPnum());
-        member.setBirthday(memberFormDto.getBirthday());
-        member.setGender(memberFormDto.getGender());
-        member.setBname(memberFormDto.getBname());
-        member.setBnumber(memberFormDto.getBnumber());
-        member.setKiwicash(0);
-        member.setLevel(1);
-        member.setPoint(100);
         member.setImage(memberFormDto.getImage());
         return member;
     }
     
     public void addInfoOAuth2(OauthAddInfoDto addInfoDto) {
-    	this.pnum = addInfoDto.getPnum();
-    	this.bname = addInfoDto.getBname();
-    	this.bnumber = addInfoDto.getBnumber();
-    	this.address = addInfoDto.getAddress();
+    	this.area = addInfoDto.getArea();
     }
      
     @Builder
@@ -140,19 +99,7 @@ public class Member extends BaseEntity {
 		this.provider = provider;
 		this.providerId = providerId;
 		this.name = name;
-		this.kiwicash = cash;
-		this.level = level;
-		this.point = point;
 		this.image = image;
 	}
     
-    public int deposit(int amount) {
-    	kiwicash -= amount;
-    	return kiwicash;
-    }
-    
-    public int withdraw(int amout) {
-    	kiwicash += amout;
-    	return kiwicash;
-    }
 }

@@ -14,8 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fog.config.auth.PrincipalDetails;
-import com.fog.member.constant.Address;
-import com.fog.member.constant.Bank;
+import com.fog.member.constant.Area;
 import com.fog.member.service.MemberService;
 /**
  * 로그인 성공 핸들러 
@@ -34,19 +33,18 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
-		
+			
 			PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
 			String user = principalDetails.getUsername();
-			String phone = principalDetails.getMember().getPnum();
-			Bank bname = principalDetails.getMember().getBname();
-			String bnum = principalDetails.getMember().getBnumber();
-			Address address = principalDetails.getMember().getAddress();
+			Area area = principalDetails.getMember().getArea();
 			String email = principalDetails.getMember().getEmail();
 			
-			if(bnum != null) {
+			if(area != null) {
 				response.sendRedirect("/members/mypage");
+				System.out.println("=========================1");
 			} else {
 				response.sendRedirect("/members/login/addInfo");
+				System.out.println("=========================2");
 			}
 		
 	}

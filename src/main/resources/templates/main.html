@@ -175,24 +175,32 @@
 <body>
 
 	<header class="vid-header container">
-		<div class="fullscreen-vid-wrap">
+		<div class="fullscreen-vid-wrap" style="background-image:url('img/top.png');background-size: cover;">
+			<!--  
 			<video th:src="${videoUrl}" muted autoplay loop></video>
+			-->
+			
+				
 		</div>
 		
 		 <!-- 
 	  <div class="header-overlay"> 
 		</div>
 		 -->
-		<div class="header-content" >
+		<div class="header-content" style="margin-top:100px;margin-left:20px">
 			
 			<!--  
 			<h1>포그 로고</h1>
 			-->
 			
+			<!-- 
 			
-			<a class="logoA">
-				<img class="logo" src="img/logo.png" style="width:250px; height: 250px;" alt="logo">
+			
+			<a class="logoA" style="">
+				<img class="logo" src="img/logo.png" style="width:250px; height: 250px;margin-bottom:300px" alt="logo">
 			</a>
+			 -->
+			
 			
 			<!--  
 			<p>
@@ -200,7 +208,11 @@
 			</p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			-->
 			<!--  <a href="/match/matchList" class="btn">매치</a> -->
-			<a href="/members/login" class="btn">한 걸음</a>
+			
+			 <br> 
+			<a href="/members/login" class="btn" style="color: #094B80">한 걸음</a>
+			
+			
 			
 			<!-- 
 			<a class="btn">/</a>

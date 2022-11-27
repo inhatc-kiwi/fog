@@ -12,18 +12,19 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MypageController {
 
+	
 	// 마이페이지 - 카테고리 관리
 	@GetMapping("/category")
 	public String mypageCategory(Model model) {
 		return "/mypage/mypageCategory";
 	}
 	
+	
 	// 마이페이지 - 포그 관리
 	@GetMapping("/fogEdit")
 	public String mypageFogEdit(Model model) {
 		return "/mypage/mypageFogEdit";
 	}
-	
 	
 	
 }

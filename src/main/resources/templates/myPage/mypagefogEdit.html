@@ -31,6 +31,28 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
+
+/*검색창*/
+.search {
+  position: relative;
+  width: 200px;
+}
+
+.search_text {
+  width: 100%;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+.search_img {
+  position : absolute;
+  width: 17px;
+  top: 10px;
+  right: 12px;
+  margin: 0;
+}
 </style>
 </th:block>
 <!-- 사용자 스크립트 추가 -->
@@ -47,27 +69,49 @@
 			<Br> <Br> <Br>
 			<h2 style="font-weight: bold; margin-left: 200px;">포그 관리</h2>
 			<div
-				style="border: 1px solid #094B80; background-color: white; float: center; height: 540px; width: 800px; margin-right: 15px; margin-left: 200px; margin-top: 30px; text-align: center;">
-				<!-- 프로필 -->
-				<div style="float: left; width: 70%; margin-top: 30px;">
-					<input class="fogTitle" type="text" name="fog_1"
-						style="width: 500px; font-size: 23px; letter-spacing: 4px; text-align: left; margin-left: 50px; float: left; border: none;"
-						value="코로나로 inha여_ver2">
+				style="border: 1px solid #094B80; background-color: white; float: center; height: 500px; width: 800px; margin-right: 15px; margin-left: 200px; margin-top: 30px; text-align: center;">
+				<!-- 검색 -->
+				<div style="float: left; width: 5%; margin-top: 35px; margin-left: 20px;">
+				<input type="checkbox" name="titleCheck" value="1" style=" width: 24px; height: 24px; ">
 				</div>
-
-				<div style="float: left; width: 30%; margin-top: 25px;">
-					<button type="button" class="btn btn-fog" style="width: 100px; margin-right: 7px;"
-						onclick="check();">수&nbsp;정</button>
-					<button type="button" class="btn btn-fog" style="width: 100px;"
-						onclick="check();">삭&nbsp;제</button>
+				
+				<div style="float: left; width: 25%; margin-top: 23px;">
+					<select class="form-select border-1" style="height: 50px; width:180px; margin-left: 20px;">
+                                <option selected>공개 여부</option>
+                                <option value="1">공개</option>
+                                <option value="2">비공개</option>
+                     </select>
 				</div>
+				
+				<div style="float: left; width: 25%; margin-top: 23px;">
+					<select class="form-select border-1" style="height: 50px; width:180px; margin-left: 20px;">
+                                <option selected>카테고리</option>
+                                <option value="1">프로필</option>
+                                <option value="2">프로젝트</option>
+                                <option value="3">대외 활동</option>
+                                <option value="4">수상자격 / 자격증</option>
+                                <option value="5">보유 기술</option>
+                     </select>
+                 </div>
+                 <div style="float: left; width:35%; margin-top:23px; margin-left: 20px;">                     
+                     <!-- 검색창 -->
+                     <div class="search" style="width: 100%;">
+  						<input class="search_text" type="text" placeholder="검색어 입력" style="height: 50px;">
+ 						<img class="search_img" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png" style="height: 30px; width: 30px;">
+					</div>
+				</div>
+				
 				<br> <Br> <Br>
 				<hr style="color: #094B80;">
 				
 				<!-- 프로필 -->
-				<div style="float: left; width: 70%; margin-top: 15px;">
+				<div style="float: left; width: 5%; margin-top: 10px; margin-left: 20px;">
+				<input type="checkbox" name="titleCheck" value="1" style=" width: 24px; height: 24px; ">
+				</div>
+				
+				<div style="float: left; width: 62%; margin-top: 5px;">
 					<input class="fogTitle" type="text" name="fog_1"
-						style="width: 500px; font-size: 23px; letter-spacing: 4px; text-align: left; margin-left: 50px; float: left; border: none;"
+						style="width: 400px; font-size: 23px; letter-spacing: 4px; text-align: left; margin-left: 20px; float: left; border: none;"
 						value="코로나로 inha여_ver2">
 				</div>
 
@@ -81,9 +125,13 @@
 				<hr style="color: #094B80;">
 
 				<!-- 프로젝트 -->
-				<div style="float: left; width: 70%; margin-top: 15px;">
-					<input class="fogTitle" type="text" name="category_2"
-						style="width: 500px; font-size: 23px; letter-spacing: 4px; text-align: left; margin-left: 50px; float: left; border: none;"
+				<div style="float: left; width: 5%; margin-top: 10px; margin-left: 20px;">
+				<input type="checkbox" name="titleCheck" value="1" style=" width: 24px; height: 24px; ">
+				</div>
+				
+				<div style="float: left; width: 62%; margin-top: 5px;">
+					<input class="fogTitle" type="text" name="fog_2"
+						style="width: 400px; font-size: 23px; letter-spacing: 4px; text-align: left; margin-left: 20px; float: left; border: none;"
 						value="배드민턴 종합 서비스_키위">
 				</div>
 
@@ -93,13 +141,17 @@
 					<button type="button" class="btn btn-fog" style="width: 100px;"
 						onclick="check();">삭&nbsp;제</button>
 				</div>
-				<Br>
-				<hr style="color: #094B80; margin-top: 50px;">
-
+				<br> <Br>
+				<hr style="color: #094B80;">
+				
 				<!-- 대외활동 -->
-				<div style="float: left; width: 70%; margin-top: 15px;">
-					<input class="fogTitle" type="text" name="category_3"
-						style="width: 500px; font-size: 23px; letter-spacing: 4px; text-align: left; margin-left: 50px; float: left; border: none;"
+				<div style="float: left; width: 5%; margin-top: 10px; margin-left: 20px;">
+				<input type="checkbox" name="titleCheck" value="1" style=" width: 24px; height: 24px; ">
+				</div>
+				
+				<div style="float: left; width: 62%; margin-top: 5px;">
+					<input class="fogTitle" type="text" name="fog_3"
+						style="width: 400px; font-size: 23px; letter-spacing: 4px; text-align: left; margin-left: 20px; float: left; border: none;"
 						value="포트폴리오 관리 사이트_포그">
 				</div>
 
@@ -109,13 +161,17 @@
 					<button type="button" class="btn btn-fog" style="width: 100px;"
 						onclick="check();">삭&nbsp;제</button>
 				</div>
-				<Br>
-				<hr style="color: #094B80; margin-top: 50px;">
+				<br> <Br>
+				<hr style="color: #094B80;">
 
 				<!-- 수상자격 / 자격증 -->
-				<div style="float: left; width: 70%; margin-top: 15px;">
-					<input class="fogTitle" type="text" name="category_4"
-						style="width: 500px; font-size: 23px; letter-spacing: 4px; text-align: left; margin-left: 50px; float: left; border: none;"
+				<div style="float: left; width: 5%; margin-top: 10px; margin-left: 20px;">
+				<input type="checkbox" name="titleCheck" value="1" style=" width: 24px; height: 24px; ">
+				</div>
+				
+				<div style="float: left; width: 62%; margin-top: 5px;">
+					<input class="fogTitle" type="text" name="fog_4"
+						style="width: 400px; font-size: 23px; letter-spacing: 4px; text-align: left; margin-left: 20px; float: left; border: none;"
 						value="정보처리 산업기사">
 				</div>
 
@@ -125,13 +181,17 @@
 					<button type="button" class="btn btn-fog" style="width: 100px;"
 						onclick="check();">삭&nbsp;제</button>
 				</div>
-				<Br>
-				<hr style="color: #094B80; margin-top: 50px;">
-
+				<br> <Br>
+				<hr style="color: #094B80;">
+				
 				<!-- 보유기술 -->
-				<div style="float: left; width: 70%; margin-top: 15px;">
-					<input class="fogTitle" type="text" name="category_5"
-						style="width: 500px; font-size: 23px; letter-spacing: 4px; text-align: left; margin-left: 50px; float: left; border: none;"
+				<div style="float: left; width: 5%; margin-top: 10px; margin-left: 20px;">
+				<input type="checkbox" name="titleCheck" value="1" style=" width: 24px; height: 24px; ">
+				</div>
+				
+				<div style="float: left; width: 62%; margin-top: 5px;">
+					<input class="fogTitle" type="text" name="fog_5"
+						style="width: 400px; font-size: 23px; letter-spacing: 4px; text-align: left; margin-left: 20px; float: left; border: none;"
 						value="학생모니터링단">
 				</div>
 
@@ -141,7 +201,7 @@
 					<button type="button" class="btn btn-fog" style="width: 100px;"
 						onclick="check();">삭&nbsp;제</button>
 				</div>
-				<Br>
+				<br>
 			</div>
 			<br> <br>
 			<div style="float: right; margin-right: 0px;">

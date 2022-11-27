@@ -40,7 +40,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 			String email = principalDetails.getMember().getEmail();
 			
 			if(area != null) {
-				response.sendRedirect("/members/mypage");
+				response.sendRedirect("/fog");
 				System.out.println("=========================1");
 			} else {
 				response.sendRedirect("/members/login/addInfo");

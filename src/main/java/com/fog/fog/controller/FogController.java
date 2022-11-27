@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class FogController {
 	
-	// 마이페이지 - 카테고리 관리
+	// 포그메인페이지
 	@GetMapping("/fog")
 	public String fogMain(Model model) {
 		return "/fog/fogMain";

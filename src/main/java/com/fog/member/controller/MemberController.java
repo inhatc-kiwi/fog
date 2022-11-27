@@ -98,7 +98,7 @@ public class MemberController {
 	public String addInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, OauthAddInfoDto oauthAddInfoDto,
 			Model model) {
 		memberService.addInfo(principalDetails, oauthAddInfoDto);
-		return "redirect:/members/mypage";
+		return "redirect:/fog";
 	}
 
 	// form로그인 테스트

@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fog.config.auth.PrincipalDetails;
-import com.fog.member.constant.Address;
-import com.fog.member.constant.Bank;
-import com.fog.member.constant.Gender;
+import com.fog.member.constant.Area;
 import com.fog.member.dto.MemberFormDto;
 import com.fog.member.dto.OauthAddInfoDto;
 import com.fog.member.entity.Member;
@@ -41,9 +39,7 @@ public class MemberController {
 	@GetMapping(value = "/new")
 	public String memberForm(Model model) {
 		model.addAttribute("memberFormDto", new MemberFormDto());
-		model.addAttribute("genders", Gender.values());
-		model.addAttribute("bnames", Bank.values());
-		model.addAttribute("local", Address.values());
+		model.addAttribute("local", Area.values());
 		return "member/memberForm";
 	}
 
@@ -51,9 +47,7 @@ public class MemberController {
 	public String memberForm(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
 			System.out.println("============================바인딩에러");
-			model.addAttribute("genders", Gender.values());
-			model.addAttribute("bnames", Bank.values());
-			model.addAttribute("local", Address.values());
+			model.addAttribute("local", Area.values());
 			return "member/memberForm";
 		}
 		try {
@@ -61,9 +55,7 @@ public class MemberController {
 			memberService.saveMember(member);
 			model.addAttribute("Message", "회원가입이 완료되었습니다.");
 		} catch (IllegalStateException e) {
-			model.addAttribute("genders", Gender.values());
-			model.addAttribute("bnames", Bank.values());
-			model.addAttribute("local", Address.values());
+			model.addAttribute("local", Area.values());
 			System.out.println("에러 메시지 전이야!");
 			model.addAttribute("errorMessage", e.getMessage());
 			System.out.println("에러 메시지 후야!");
@@ -88,16 +80,6 @@ public class MemberController {
 	@GetMapping("/mypage")
 	public String mypage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
 		Member member = memberService.mypageInfo(principalDetails);
-		// System.out.println("================> 캐시 금액 : " +
-		// cashRepository.amountSum(member)); // 추후 수정
-		// member.setKiwicash(cashRepository.amountSum(member));
-
-//		Integer userCash = cashRepository.amountSum(member);
-//		if(cashRepository.amountSum(member) != null) {
-//			System.out.println("=================> 0") ;
-//		}else {
-//			System.out.println("================> tt");
-//		}
 
 		model.addAttribute("member", member);
 		return "mypage/mypageMain";
@@ -107,8 +89,7 @@ public class MemberController {
 	@GetMapping("/login/addInfo")
 	public String addInfo(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 		model.addAttribute("oauthAddInfoDto", new OauthAddInfoDto());
-		model.addAttribute("bnames", Bank.values());
-		model.addAttribute("local", Address.values());
+		model.addAttribute("local", Area.values());
 		return "member/memberAddInfo";
 	}
 
@@ -117,7 +98,7 @@ public class MemberController {
 	public String addInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, OauthAddInfoDto oauthAddInfoDto,
 			Model model) {
 		memberService.addInfo(principalDetails, oauthAddInfoDto);
-		return "redirect:/";
+		return "redirect:/members/mypage";
 	}
 
 	// form로그인 테스트

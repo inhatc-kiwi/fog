@@ -4,9 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import com.fog.member.constant.Address;
-import com.fog.member.constant.Bank;
-import com.fog.member.constant.Gender;
+import com.fog.member.constant.Area;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -28,7 +26,7 @@ public class MemberFormDto {
     private String password;
     
     @NotNull(message = "주소는 반드시 선택해주세요.")
-    private Address address;
+    private Area area;
     
     @NotEmpty(message = "휴대폰 번호는 반드시 입력해주세요.")
     private String pnum;
@@ -37,12 +35,6 @@ public class MemberFormDto {
     @NotEmpty(message = "생년월일은 반드시 입력해주세요.")
     @Length(min=6, max=6, message = "생년월일 형식을 맞춰주세요. ex) yymmdd")
     private String birthday;
-    
-    @NotNull(message = "성별은 반드시 선택해주세요.")
-    private Gender gender;
-    
-    @NotNull(message = "계좌은행은 반드시 선택해주세요.")
-    private Bank bname;
     
     @NotEmpty(message = "계좌번호는 반드시 입력해주세요.")
     private String bnumber;

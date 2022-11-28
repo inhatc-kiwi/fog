@@ -35,16 +35,13 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 			Authentication authentication) throws IOException, ServletException {
 			
 			PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-			String user = principalDetails.getUsername();
 			Area area = principalDetails.getMember().getArea();
-			String email = principalDetails.getMember().getEmail();
+			String fogUrl = principalDetails.getMember().getFogid();
 			
 			if(area != null) {
-				response.sendRedirect("/members/mypage");
-				System.out.println("=========================1");
+				response.sendRedirect("/fog/"+fogUrl+"");
 			} else {
 				response.sendRedirect("/members/login/addInfo");
-				System.out.println("=========================2");
 			}
 		
 	}

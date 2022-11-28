@@ -109,7 +109,12 @@
 						<!-- <a href="#" class="img d-flex align-items-center justify-content-center"><span class="fa fa-user-o"></span></a> -->
 						<form class="signup-form" th:object="${oauthAddInfoDto}" action="/members/login/addInfo" role="form" method="post" name="join_form">
 							
+							
+							
 							<div class="form-group mb-4" >
+								  <label class="label" th:for="fogid">포그 주소</label>
+								  <input type="text" class="form-control" th:field="*{fogid}" placeholder="구분할 수 있는 포그 주소를 입력해주세요.">
+								  <br>
 								  <label class="label" th:for="area" style="margin-bottom: 15px">분야</label>
 								  <br>
 								  <select class="form-select " th:field="*{area}" aria-label="Default select example" style="padding-top:5px">

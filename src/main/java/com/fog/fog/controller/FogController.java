@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class FogController {
 
+
 //	// 포그 메인페이지
 //	@GetMapping("/fog")
 //	public String fogMain(Model model) {

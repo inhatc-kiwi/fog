@@ -35,35 +35,6 @@ public class MemberController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	// 회원 가입 로직
-	@GetMapping(value = "/new")
-	public String memberForm(Model model) {
-		model.addAttribute("memberFormDto", new MemberFormDto());
-		model.addAttribute("local", Area.values());
-		return "member/memberForm";
-	}
-
-	@PostMapping(value = "/new")
-	public String memberForm(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
-		if (bindingResult.hasErrors()) {
-			System.out.println("============================바인딩에러");
-			model.addAttribute("local", Area.values());
-			return "member/memberForm";
-		}
-		try {
-			Member member = Member.createMember(memberFormDto, passwordEncoder);
-			memberService.saveMember(member);
-			model.addAttribute("Message", "회원가입이 완료되었습니다.");
-		} catch (IllegalStateException e) {
-			model.addAttribute("local", Area.values());
-			System.out.println("에러 메시지 전이야!");
-			model.addAttribute("errorMessage", e.getMessage());
-			System.out.println("에러 메시지 후야!");
-			return "member/memberForm";
-		}
-		return "redirect:/members/login";
-	}
-
 	// 로그인 로직
 	@GetMapping(value = "/login")
 	public String loginMember() {
@@ -95,10 +66,10 @@ public class MemberController {
 
 	// 소셜로그인 추가정보 등록
 	@PostMapping("/login/addInfo")
-	public String addInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, OauthAddInfoDto oauthAddInfoDto,
-			Model model) {
+	public String addInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, OauthAddInfoDto oauthAddInfoDto,Model model) {
 		memberService.addInfo(principalDetails, oauthAddInfoDto);
-		return "redirect:/fog";
+		String fogUrl = oauthAddInfoDto.getFogid();
+		return "redirect:/fog/"+fogUrl+"";
 	}
 
 	// form로그인 테스트

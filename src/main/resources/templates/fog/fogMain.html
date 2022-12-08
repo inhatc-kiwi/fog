@@ -150,8 +150,8 @@ body {
 				<img src="/img/공유.png" style="width: 90px; height: 80px">
 			</button>
 			<ul class="dropdown-menu">
-				<li><a class="dropdown-item" href="#">링크 공유</a></li>
 				<li><a class="dropdown-item" href="/mypage/category">PDF내보내기</a></li>
+				<li><a class="dropdown-item" data-toggle="modal" href="#myModal">링크 공유</a></li>
 			</ul>
 		</div>
 
@@ -201,7 +201,6 @@ body {
 			id="experience">
 			<div class="my-auto">
 				<h2 class="mb-5 fog-title">프로젝트</h2>
-
 				<div class="resume-item d-flex flex-column flex-md-row mb-5">
 					<div class="resume-content mr-auto">
 						<h3 class="mb-0">Senior Web Developer</h3>
@@ -356,10 +355,36 @@ body {
 					world.</p>
 			</div>
 		</section>
-
-
-
 	</div>
+	
+	<!-- 모달 -->
+			<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog" style="display: flex;width:400px;">
+					<div class="modal-content">
+						<div class="modal-body" style="height: 60px; width: 350px; text-align: center; color: black; margin-top: 20px;">
+							<div style="font-weight: bold; font-size: 16px;">공유 URL을 복사하세요!</div>
+							<input id="myFog" th:value="'http://localhost/fog/' + ${fogid}" readonly style=" border: none; outline: none; padding: 0px; text-align: center; margin-top: 10px;">
+						</div>
+						<div class="modal-footer" style="border: none">
+							<button type="button" class="btn btn-cancel" onclick="copy_to_clipboard()" style="background-color: #BFDDF9; border-color: #094B80;">확인</button>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+	<script type="text/javascript">
+	function copy_to_clipboard() {    
+		  console.log("Dd")
+		  var copyText = document.getElementById('myFog');
+		  copyText.select();
+		  copyText.setSelectionRange(0, 99999);
+		  document.execCommand("Copy");
+		  alert('복사되었습니다, 감사합니다.');
+		}
+
+	</script>
 
 	<!-- Bootstrap core JavaScript -->
 	<script src="/fog/vendor/jquery/jquery.min.js"></script>

@@ -60,10 +60,15 @@
 /* ckeditor */
 .ck.ck-editor {
 	max-width: 799px;
+	margin-top: 25px;
+	margin-left: 30px;
+	margin-right: 30px;
+	margin-bottom: 10px;
+	
 }
 
 .ck-editor__editable {
-	min-height: 369px;
+	min-height: 480px;
 }
 </style>
 </th:block>
@@ -82,11 +87,10 @@
 
 <div layout:fragment="content">
 	<div class="container">
-		<div class="cd1">
-			<Br> <Br> <Br>
+		<div class="cd1" style="height:910px">
+			<Br><Br><Br>
 			<h2 style="font-weight: bold; margin-left: 200px;">작성하기</h2>
-			<div
-				style="border: 1px solid #094B80; background-color: white; float: center; height: 500px; width: 800px; margin-right: 15px; margin-left: 200px; margin-top: 30px; text-align: center;">
+			<div style="border: 1px solid #094B80; background-color: white; float: center; height: 750px; width: 850px; margin-right: 15px; margin-left: 200px; margin-top: 30px; text-align: center;">
 
 				<div style="float: left; width: 25%; margin-top: 20px;">
 					<select class="form-select border-1"
@@ -100,21 +104,37 @@
 					</select>
 				</div>
 				<div
-					style="float: left; width: 65%; margin-top: 20px; margin-left: 40px;">
+					style="float: left; width: 65%; margin-top: 20px; margin-left: 30px;">
 					<!-- 검색창 -->
-					<div class="search" style="width: 100%;">
+					<div class="search" style="width: 575px;">
 						<input class="search_text" type="text" placeholder="타이틀을 입력해주세요."
-							style="height: 50px;">
+							style="height: 50px; font-size:16px;">
 					</div>
 				</div>
 
 				<br> <Br> <Br>
 				<hr style="color: #094B80;margin-bottom:0px">
 				<div>
-					<textarea name="content" id="editor">
+					<textarea name="content" id="editor" style="margin-left:30px;margin-right:30px">
 					</textarea>
 					
 				</div>
+				
+				<div style="float: left; width: 50%; margin-top: 0px;">
+					<div style="text-align: left; margin-left: 40px; margin-top: 15px; font-size: 20px; font-weight: bold;">공개여부</div>
+				</div>
+				
+				<div style="float: right; width: 50%; margin-top: 30px; text-align: right;">
+ 				<button type="button" class="btn btn-fog" style="width: 120px; float: right; margin-right: 30px;" onclick="check();">저&nbsp;장</button>
+				</div>
+				
+				<div style="float: left; width: 50%; margin-top: 10px; text-align: left;">
+					<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" style="margin-left: 40px;"checked> 
+					<label class="form-check-label" for="flexRadioDefault1" style="margin-left: 65px;"> 공개 </label>
+					<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" style="margin-left: 20px;"> 
+					<label class="form-check-label" for="flexRadioDefault2" style="margin-left: 45px;">비공개</label>
+ 				</div>
+ 				
 
 
 				<br>

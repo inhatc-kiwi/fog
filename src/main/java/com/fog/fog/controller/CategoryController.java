@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-public class FogController {
+public class CategoryController {
 
 
 //	// 포그 메인페이지

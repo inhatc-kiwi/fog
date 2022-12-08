@@ -14,13 +14,23 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CategoryController {
 
+
 	// 포그 메인페이지
 	@GetMapping("/fog/{fogid}")
 	public String fogMain(@PathVariable("fogid") String fogid,Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 		String name = principalDetails.getMember().getName();
 		model.addAttribute("name", name);
+    model.addAttribute("fogid", fogid);
 		return "/fog/fogMain";
 	}
 	
 
+	// 마이페이지 - 헤더
+	@GetMapping("/fog")
+	public String mypageHeader(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+		String fogId = principalDetails.getMember().getFogid();
+		model.addAttribute("fogid", fogId);
+		System.out.println(">>>>>>>>>>>>>> fogId" + fogId);
+		return "/fragments/mypageHeader";
+	}
 }

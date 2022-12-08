@@ -7,11 +7,13 @@ import lombok.Setter;
 
 @Getter @Setter
 public class OauthAddInfoDto {
- 
+	
     private Area area;
     
     private String pnum;   
     
     private String bnumber;
-
+    
+    private String fogid;
+    
 }

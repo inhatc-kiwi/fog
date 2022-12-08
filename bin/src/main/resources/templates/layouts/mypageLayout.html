@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+
+<!-- CSS only -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link th:href="@{/css/layout1.css}" rel="stylesheet">
+
+<!-- JS, Popper.js, and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+<th:block layout:fragment="script"></th:block>
+<th:block layout:fragment="css"></th:block>
+<style>
+.menuLeft {
+	list-style-type: none;
+	padding: 0px;
+	margin: 0px;
+	width: 400px;
+	background: #EBF7FD;
+	height: 100%;
+	overflow: auto;
+	position: fixed;
+}
+
+ul{
+  	list-style:none;  /* 점 없애기 */
+  	margin-right: 20px;
+  	width: 370px;
+  	font-size: 20px;
+}
+
+li {
+	border: 1px solid #094B80;
+	margin-bottom: 10px;
+	background-color: #BFDDF9;
+	font-weight: bold;
+}
+
+li a {
+	text-decoration: none;
+	padding: 10px;
+	text-align:center;
+	display: block;
+	color: #000;
+	font-weight: bold;
+}
+
+li a:hover { /* 마우스 갖다 대면 */
+	color: white;
+	background-color: #094B80;
+}
+
+.cd1 {
+	margin-left: 220px;
+}
+
+</style>
+</head>
+<body>
+	<div th:replace="fragments/mypageHeader::header"></div>
+
+	<div layout:fragment="content" class="content" style="background-color: white;"></div>
+
+	<div th:replace="fragments/mypageFooter::footer"></div>
+</body>
+</html>

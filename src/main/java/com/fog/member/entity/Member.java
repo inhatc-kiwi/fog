@@ -72,6 +72,10 @@ public class Member extends BaseEntity {
     // OAuth2 추가정보 여부
     private String updateOauthYn;
     
+    // 조회수
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private int view;
+    
 //    @OneToMany(mappedBy = "member")
 //    private List<Cash> cashs = new ArrayList<>();
 

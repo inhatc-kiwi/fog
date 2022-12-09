@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fog.config.auth.PrincipalDetails;
+import com.fog.member.dto.MemberFormDto;
 import com.fog.member.dto.OauthAddInfoDto;
 import com.fog.member.entity.Member;
 import com.fog.member.repository.MemberRepository;
@@ -29,7 +30,6 @@ import com.fog.member.repository.MemberRepository;
 
 //UserDetailsService는 데이터베이스에서 회원정보를 가져오는 역할 (즉, 시큐리티에서 로그인 담당한다고 생각하면 됨)
 public class MemberService implements UserDetailsService {
-
     //빈에 생성자가 1개이고 생성자의 파라미터 타입이 빈으로 등록이 가능하면 @Autowired 없이 의존성 주입 가능
     @Autowired
     private MemberRepository memberRepository;
@@ -38,7 +38,13 @@ public class MemberService implements UserDetailsService {
         validateDuplicateMember(member);
         return memberRepository.save(member);
     }
-
+    
+    /* 조회수 증가 */
+    @Transactional
+    public int updateView(Long id) {
+        return memberRepository.updateView(id);
+    }
+    
     // 회원 중복체크
     private void validateDuplicateMember(Member member){
         Member findMember = memberRepository.findByEmail(member.getEmail());
@@ -84,4 +90,8 @@ public class MemberService implements UserDetailsService {
     			return new PrincipalDetails(member);
     		}
     }
+
+	public MemberFormDto findById(Long memId) {
+		return null;
+	}
 }

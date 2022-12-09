@@ -11,6 +11,14 @@
 		integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
 		crossorigin="anonymous">
 
+	<!-- 차트 -->
+	<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
+		type="text/css">
+	<link
+		href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+		rel="stylesheet">
+	<link href="css/sb-admin-2.min.css" rel="stylesheet">
+
 	<style>
 .btn-fog {
 	background-color: #BFDDF9;
@@ -38,18 +46,68 @@
 <div layout:fragment="content">
 	<div class="container">
 		<div class="cd1">
-			<Br>
-			<Br>
-			<Br>
-			<h2 style="font-weight: bold;  margin-left:200px; ">메인</h2>
-			<div style="background-color: white; float: center; height: 450px; width: 800px; margin-right: 15px; margin-left:200px; margin-top: 30px; text-align: center;">
-				
+			<Br> <Br> <Br>
+			<h2 style="font-weight: bold; margin-left: 100px; color: black;">방문자
+				통계</h2>
+			<div
+				style="background-color: white; float: center; height: 450px; width: 800px; margin-right: 15px; margin-left: 100px; margin-top: 30px; text-align: center;">
+					<!-- Area Chart -->
+					<div class="card shadow mb-4" style="width: 900px;">
+						<div class="card-header py-3">
+							<div class="m-0 font-weight-bold text-primary" style="float: left; width: 33%; margin-top: 20px; margin-bottom: 10px;">
+								<div style="text-align: center;">오늘 방문자 수</div>
+							</div>
 
-				
-			</div>
-			<br><br> 
-			<br> <br>
+							<div class="m-0 font-weight-bold text-primary" style="float: left; width: 33%; margin-top: 20px;">
+								<div style="float: center;">어제 방문자 수</div>
+							</div>
+							
+							<div class="m-0 font-weight-bold text-primary" style="float: left; width: 33%; margin-top: 20px;">
+								<div style="float: center;">누적 방문자 수</div>
+							</div>
+							<br>
+							
+							<div class="m-0 font-weight-bold text-primary" style="float: left; width: 33%; margin-top: 20px;">
+								<div style="text-align: center; margin-left: 10px; margin-top: 10px;">10</div>
+							</div>
+
+							<div class="m-0 font-weight-bold text-primary" style="float: left; width: 33%; margin-top: 20px;">
+								<div style="float: center; margin-top: 10px;">20</div>
+							</div>
+							
+							<div class="m-0 font-weight-bold text-primary" style="float: left; width: 33%; margin-top: 20px;">
+								<div style="float: center; margin-right: 10px; margin-top: 10px;">100</div>
+							</div>
+							<br>
+
+						</div>
+						<div class="card-body">
+							<div class="chart-area">
+								<canvas id="myAreaChart"></canvas>
+							</div>
+							<hr>
+						</div>
+					</div>
+				</div>
+			<br> <br> <br> <br>
 		</div>
+		<!-- 차트 -->
+		<!-- Bootstrap core JavaScript-->
+		<!-- <script src="vendor/jquery/jquery.min.js"></script> -->
+		<!-- <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>-->
+
+		<!-- Core plugin JavaScript-->
+		<!-- <script src="vendor/jquery-easing/jquery.easing.min.js"></script> -->
+
+		<!-- Custom scripts for all pages-->
+		<!-- <script src="js/sb-admin-2.min.js"></script> -->
+
+		<!-- Page level plugins -->
+		<script src="vendor/chart.js/Chart.min.js"></script>
+
+		<!-- Page level custom scripts -->
+		<script src="js/demo/chart-area-demo.js"></script>
 	</div>
 </div>
+
 </html>

@@ -17,42 +17,68 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fog.config.auth.PrincipalDetails;
+import com.fog.hitCount.entity.HitCount;
+import com.fog.hitCount.service.HitCountService;
+import com.fog.member.entity.Member;
 import com.fog.mypage.constant.PrivateYn;
 import com.fog.mypage.dto.CategoryWriteDto;
 import com.fog.mypage.entity.CategoryContent;
 import com.fog.mypage.service.CategoryContentService;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 
 @RequestMapping("/mypage")
 @Controller
 @RequiredArgsConstructor
 public class MypageController {
-	
+
 	@Autowired
 	private CategoryContentService categoryContentService;
-	
+
+	@Autowired
+	private HitCountService countService;
+
 	@Value("${contentImgLocation}")
 	private String contentImgLocation;
 
-	// 마이페이지 - 메인
+	// 마이페이지 - 메인 (방문자 통계)
 	@GetMapping("/main")
-	public String mypageMain(Model model) {
+	public String mypageMain(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+		// 방문자 통계
+		String fogId = principalDetails.getMember().getFogid();
+		List<HitCount> lists = countService.countList();
+		model.addAttribute("lists", lists);
+		model.addAttribute("fogId", fogId);
+//		System.out.println(">>>>>>>>>>>>>>>> list.fogId : " + lists.get(0).getFogId());
+
+		String memFogId = principalDetails.getMember().getFogid();
+//		System.out.println(">>>>>>>>>>>>>>> : memFogId : " + memFogId);
+		model.addAttribute("memFogId", memFogId);
+
+		int counts = 0;
+		for(int i = 0; i < lists.size(); i++) {
+			if(lists.get(i).getFogId().equals(memFogId)) { 
+				// 방문자 목록 중 내 포그 아이디 검색
+				counts += 1;
+			}
+		}
+		model.addAttribute("total", counts);
 		return "/mypage/mypageMain";
 	}
-	
+
 	// 마이페이지 - 카테고리 관리
 	@GetMapping("/category")
 	public String mypageCategory(Model model) {
 		return "/mypage/mypageCategory";
 	}
-	
+
 	// 마이페이지 - 포그 관리
 	@GetMapping("/fogEdit")
 	public String mypageFogEdit(Model model) {
 		return "/mypage/mypageFogEdit";
 	}
-	
+
 	// 마이페이지 - 설정
 	@GetMapping("/setting")
 	public String mypageSetting(Model model) {
@@ -66,19 +92,21 @@ public class MypageController {
 		model.addAttribute("private", PrivateYn.values());
 		return "/mypage/mypageWrite";
 	}
-	
+
 	// 마이페이지 - 작성하기
 	@PostMapping("/write")
-	public String mypageWritePost(@AuthenticationPrincipal PrincipalDetails principalDetails, CategoryWriteDto categoryWriteDto, Model model, @RequestParam(value="radio" , required=false) String radio) {
+	public String mypageWritePost(@AuthenticationPrincipal PrincipalDetails principalDetails,
+			CategoryWriteDto categoryWriteDto, Model model,
+			@RequestParam(value = "radio", required = false) String radio) {
 		categoryWriteDto.setCategoryYn(radio);
 		String category_id = categoryWriteDto.getCategory();
-		
+
 		CategoryContent content = CategoryContent.createContent(categoryWriteDto);
 		categoryContentService.saveContent(principalDetails, content, category_id);
-		
+
 		return "redirect:/mypage/main";
 	}
-	
+
 	// ckeditor 이미지 처리
 	@PostMapping(value = "/image/upload")
 	public ModelAndView image(MultipartHttpServletRequest request) throws Exception {

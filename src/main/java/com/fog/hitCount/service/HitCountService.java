@@ -2,6 +2,7 @@ package com.fog.hitCount.service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,5 +41,11 @@ public class HitCountService {
 			hitcount.setFogId(fogId); // 내가 본 사용자의 아이디를 넣어야함
 			hitcount.save(fogId, formatedNow); // , member
 			hitCountRepository.save(hitcount);
+		}
+
+		// 방문자 수 리스트 조회
+		public List<HitCount> countList() {
+			List<HitCount> countList = hitCountRepository.findAllByOrderByIdDesc();
+			return countList;
 		}
 }

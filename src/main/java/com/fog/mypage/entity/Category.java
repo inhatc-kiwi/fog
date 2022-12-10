@@ -1,4 +1,4 @@
-package com.fog.fog.entity;
+package com.fog.mypage.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,6 +17,7 @@ import lombok.ToString;
 @Table(name="category")
 @Getter @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
 public class Category {
     @Id

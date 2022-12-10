@@ -56,6 +56,7 @@ public class CategoryController {
 		return "/fog/fogMain";
 	}
 	
+  
 	// 마이페이지 - 헤더
 	@GetMapping("/fog")
 	public String mypageHeader(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {

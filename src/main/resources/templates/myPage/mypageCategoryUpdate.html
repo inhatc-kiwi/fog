@@ -1,17 +1,65 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/mypageLayout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>포그</title>
 
 <!-- 사용자 CSS 추가-->
-<th:block layout:fragment="css">
-	<link
-		href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-		rel="stylesheet"
-		integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-		crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link th:href="@{/css/layout1.css}" rel="stylesheet">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+	crossorigin="anonymous">
 
-	<style>
+<style>
+.menuLeft {
+	list-style-type: none;
+	padding: 0px;
+	margin: 0px;
+	width: 400px;
+	background: #EBF7FD;
+	height: 100%;
+	overflow: auto;
+	position: fixed;
+}
+
+ul {
+	list-style: none; /* 점 없애기 */
+	margin-right: 20px;
+	width: 370px;
+	font-size: 20px;
+}
+
+li {
+	border: 1px solid #094B80;
+	margin-bottom: 10px;
+	background-color: #BFDDF9;
+	font-weight: bold;
+}
+
+li a {
+	text-decoration: none;
+	padding: 10px;
+	text-align: center;
+	display: block;
+	color: #000;
+	font-weight: bold;
+}
+
+li a:hover { /* 마우스 갖다 대면 */
+	color: white;
+	background-color: #094B80;
+}
+
+.cd1 {
+	margin-left: 220px;
+}
+
+/* 카테고리 수정 페이지*/
 .btn-fog {
 	background-color: #BFDDF9;
 	color: black;
@@ -32,54 +80,97 @@
 	white-space: nowrap;
 }
 </style>
-</th:block>
-<!-- 사용자 스크립트 추가 -->
-<th:block layout:fragment="script">
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-		crossorigin="anonymous"></script>
-</th:block>
 
-<div layout:fragment="content">
+<!-- 사용자 스크립트 추가 -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+	crossorigin="anonymous"></script>
+
+<!-- header -->
+<div th:fragment="header">
+	<div class="menuLeft">
+		<div
+			style="border: 1px solid #094B80; background-color: white; float: center; height: 320px; width: 340px; margin-right: 15px; margin-left: 30px; margin-top: 30px; text-align: center;">
+			<img src="/img/포그.png" alt="fog"
+				style="margin-top: 10px; width: 300px; height: 300px; object-fit: cover; border-radius: 30%; overflow: hidden;">
+
+		</div>
+		<div
+			style="border: 1px solid #094B80; background-color: white; float: center; height: 70px; width: 340px; margin-right: 15px; margin-left: 30px; text-align: center; margin-bottom: 5px">
+
+			<h5
+				style="float: left; margin-left: 20px; margin-bottom: 0px; margin-top: 10px; color: black;">스누피</h5>
+			<br> <a th:href="'http://localhost/fog/' + ${fogId}"
+				th:text="'http://localhost/fog/' + ${fogId}"
+				style="text-decoration: none; float: left; font-size: 17px; margin-top: 11px; margin-left: -60px; color: black">http://localhost/fog/snoppy</a>
+			<!-- th:href="@{http://localhost/fog/{id}(id = ${member.fogid})}" -->
+		</div>
+		<Br> <Br>
+
+		<ul>
+			<li><a class="home" href="../mypage/write">작성하기</a></li>
+			<br>
+			<li><a href="../mypage/category">카테고리 관리</a></li>
+			<li><a href="../mypage/fogEdit">포그 관리</a></li>
+			<li><a href="../mypage/main">방문자 통계</a></li>
+			<li><a href="../mypage/setting">설정</a></li>
+		</ul>
+	</div>
+</div>
+
+<div class="content" style="background-color: white;">
 	<div class="container">
 		<div class="cd1">
-			<Br>
-			<Br>
-			<Br>
-			<h2 style="font-weight: bold;  margin-left:200px; ">카테고리 관리</h2>
-			<div style="border: 1px solid #094B80; background-color: white; float: center; height: 446px; width: 800px; margin-right: 15px; margin-left:200px; margin-top: 30px; text-align: center;">
-				
+			<Br> <Br> <Br>
+			<h2 style="font-weight: bold; margin-left: 200px;">카테고리 관리</h2>
+			<div
+				style="border: 1px solid #094B80; background-color: white; float: center; height: 446px; width: 800px; margin-right: 15px; margin-left: 200px; margin-top: 30px; text-align: center;">
+
 				<!-- 프로필 -->
 				<div th:each="vo : ${lists}">
-				
-				<div style="float: left; width: 70%; margin-top: 30px;">
-				
-				<input class="categoryTitle" type="text" name="category_1" style="width: 700px; font-size: 23px; letter-spacing: 4px; text-align: left; margin-left: 50px; float: left; border: none;"  th:value="${vo.type}">
-				</div>
-			
-				<!--  
+
+					<div style="float: left; width: 70%; margin-top: 30px;">
+
+						<input class="categoryTitle" type="text" name="category_1"
+							style="width: 700px; font-size: 23px; letter-spacing: 4px; text-align: left; margin-left: 50px; float: left; border: none;"
+							th:value="${vo.type}">
+					</div>
+
+					<!--  
 				<div style="float: left; width: 30%; margin-top: 25px;">
 					<button type="button" class="btn btn-fog" style="width: 120px; "
 						onclick="check();">수&nbsp;정</button>
 				</div>
 				-->
-				
-				<br><br><br>
-				<hr style="color: #094B80;margin-bottom:0px">
-				
+
+					<br>
+					<br>
+					<br>
+					<hr style="color: #094B80; margin-bottom: 0px">
+
 				</div>
-				
-				
-				
-				
-				
+
+
+
+
+
 			</div>
-			<br><br> 
-			<button type="submit" class="btn btn-fog" style="width: 120px; float: right; margin-right: 80px;" onclick="check();">저&nbsp;장</button>
-			
+			<br>
+			<br>
+			<button type="submit" class="btn btn-fog"
+				style="width: 120px; float: right; margin-right: 80px;"
+				onclick="check();">저&nbsp;장</button>
+
 			<br> <br>
 		</div>
 	</div>
 </div>
+<div th:replace="fragments/mypageFooter::footer"></div>
 </html>

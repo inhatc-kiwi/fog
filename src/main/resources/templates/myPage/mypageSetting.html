@@ -9,14 +9,14 @@
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <link th:href="@{/css/layout1.css}" rel="stylesheet">
-	<link
-		href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-		rel="stylesheet"
-		integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-		crossorigin="anonymous">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+	crossorigin="anonymous">
 
-	<style>
-	.menuLeft {
+<style>
+.menuLeft {
 	list-style-type: none;
 	padding: 0px;
 	margin: 0px;
@@ -88,33 +88,42 @@ li a:hover { /* 마우스 갖다 대면 */
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-		crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+	crossorigin="anonymous"></script>
 
 <!-- header -->
 <div th:fragment="header">
 	<div class="menuLeft">
-	<div style="border: 1px solid #094B80; background-color:white; float:center; height:320px; width:340px; margin-right:15px; margin-left:30px; margin-top:30px; text-align: center;">
-		<img src="/img/포그.png" alt="fog" style="margin-top: 10px; width: 300px; height:300px;object-fit: cover;border-radius: 30%; overflow: hidden;">
-		
-	</div>
-	<div style="border: 1px solid #094B80; background-color:white; float:center; height:70px; width:340px;margin-right:15px; margin-left:30px;text-align: center; margin-bottom: 5px">
+		<div
+			style="border: 1px solid #094B80; background-color: white; float: center; height: 320px; width: 340px; margin-right: 15px; margin-left: 30px; margin-top: 30px; text-align: center;">
+			<img src="/img/포그.png" alt="fog"
+				style="margin-top: 10px; width: 300px; height: 300px; object-fit: cover; border-radius: 30%; overflow: hidden;">
 
-	<h5 style="float:left; margin-left:20px; margin-bottom: 0px;  margin-top:10px; color:black;">스누피</h5><br>
-		<a th:href="'http://localhost/fog/' + ${fogId}"  th:text="'http://localhost/fog/' + ${fogId}" style="text-decoration: none; float:left; font-size:17px; margin-top:11px; margin-left:-60px; color: black">http://localhost/fog/snoppy</a> <!-- th:href="@{http://localhost/fog/{id}(id = ${member.fogid})}" -->
+		</div>
+		<div
+			style="border: 1px solid #094B80; background-color: white; float: center; height: 70px; width: 340px; margin-right: 15px; margin-left: 30px; text-align: center; margin-bottom: 5px">
+
+			<h5
+				style="float: left; margin-left: 20px; margin-bottom: 0px; margin-top: 10px; color: black;">스누피</h5>
+			<br> <a th:href="'http://localhost/fog/' + ${fogId}"
+				th:text="'http://localhost/fog/' + ${fogId}"
+				style="text-decoration: none; float: left; font-size: 17px; margin-top: 11px; margin-left: -60px; color: black">http://localhost/fog/snoppy</a>
+			<!-- th:href="@{http://localhost/fog/{id}(id = ${member.fogid})}" -->
+		</div>
+		<Br>
+		<Br>
+
+		<ul>
+			<li><a class="home" href="../mypage/write">작성하기</a></li>
+			<br>
+			<li><a href="../mypage/category">카테고리 관리</a></li>
+			<li><a href="../mypage/fogEdit">포그 관리</a></li>
+			<li><a href="../mypage/main">방문자 통계</a></li>
+			<li><a href="../mypage/setting">설정</a></li>
+		</ul>
 	</div>
-		<Br><Br>
-		
-	<ul>
-		<li><a class="home" href="../mypage/write">작성하기</a></li><br>
-		<li><a href="../mypage/category">카테고리 관리</a></li>
-		<li><a href="../mypage/fogEdit">포그 관리</a></li>
-		<li><a href="../mypage/main">방문자 통계</a></li>
-		<li><a href="../mypage/setting">설정</a></li>
-	</ul>
-</div>
 </div>
 
 <div class="content" style="background-color: white;">
@@ -140,19 +149,22 @@ li a:hover { /* 마우스 갖다 대면 */
 					이름</div>
 				<br> <input class="fogText" type="text" name="fog_name"
 					style="width: 700px; font-size: 20px; letter-spacing: 4px; text-align: left; margin-left: 45px; float: left; padding: 5px;"
-					value="스누피"> <br> 
+					value="스누피"> <br>
 
 				<!-- 분야 / 공개여부 - 타이틀 -->
 				<div style="float: left; width: 50%; margin-top: 20px;">
-					<div style="text-align: left; margin-left: 40px; margin-top: 15px; font-size: 20px; font-weight: bold;">분야</div>
+					<div
+						style="text-align: left; margin-left: 40px; margin-top: 15px; font-size: 20px; font-weight: bold;">분야</div>
 				</div>
 				<div style="float: left; width: 50%; margin-top: 20px;">
-					<div style="text-align: left; margin-left: 40px; margin-top: 15px; font-size: 20px; font-weight: bold;">공개여부</div>
+					<div
+						style="text-align: left; margin-left: 40px; margin-top: 15px; font-size: 20px; font-weight: bold;">공개여부</div>
 				</div>
-				
+
 				<!-- 분야 / 공개여부 - 내용 -->
 				<div style="float: left; width: 50%; margin-top: 10px;">
-					<select class="form-select border-1" style="height: 50px; width: 180px; margin-left: 40px;">
+					<select class="form-select border-1"
+						style="height: 50px; width: 180px; margin-left: 40px;">
 						<option selected>카테고리</option>
 						<option value="1">프로필</option>
 						<option value="2">프로젝트</option>
@@ -161,15 +173,25 @@ li a:hover { /* 마우스 갖다 대면 */
 						<option value="5">보유 기술</option>
 					</select>
 				</div>
-				
-				<div style="float: left; width: 50%; margin-top: 23px; text-align: left;">
-					<input class="form-check-input" type="radio" name="flexRadioDefault"  id="flexRadioDefault1" style="margin-left: 40px;"checked> 
-					<label class="form-check-label" for="flexRadioDefault1"  style="margin-left: 65px;"> 공개(기본) </label>
-					<input class="form-check-input" type="radio" name="flexRadioDefault"  id="flexRadioDefault2" style="margin-left: 20px;"> 
-					<label class="form-check-label" for="flexRadioDefault2" style="margin-left: 50px;">비공개</label>
- 				</div>
- 				
-				<br><Br><Br><br><Br>
+
+				<div
+					style="float: left; width: 50%; margin-top: 23px; text-align: left;">
+					<input class="form-check-input" type="radio"
+						name="flexRadioDefault" id="flexRadioDefault1"
+						style="margin-left: 40px;" checked> <label
+						class="form-check-label" for="flexRadioDefault1"
+						style="margin-left: 65px;"> 공개(기본) </label> <input
+						class="form-check-input" type="radio" name="flexRadioDefault"
+						id="flexRadioDefault2" style="margin-left: 20px;"> <label
+						class="form-check-label" for="flexRadioDefault2"
+						style="margin-left: 50px;">비공개</label>
+				</div>
+
+				<br>
+				<Br>
+				<Br>
+				<br>
+				<Br>
 				<!-- 썸네일 -->
 				<div
 					style="text-align: left; margin-left: 40px; margin-top: 50px; font-size: 20px; font-weight: bold;">썸네일</div>
@@ -190,8 +212,7 @@ li a:hover { /* 마우스 갖다 대면 */
 			</div>
 			<Br>
 		</div>
-		<br>
-		<br>
+		<br> <br>
 		<button type="button" class="btn btn-fog"
 			style="width: 120px; float: right; margin-right: 80px;"
 			onclick="check();">저&nbsp;장</button>

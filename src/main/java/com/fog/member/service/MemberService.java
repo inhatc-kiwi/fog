@@ -40,10 +40,10 @@ public class MemberService implements UserDetailsService {
     }
     
     /* 조회수 증가 */
-    @Transactional
-    public int updateView(Long id) {
-        return memberRepository.updateView(id);
-    }
+//    @Transactional
+//    public int updateView(Long id) {
+//        return memberRepository.updateView(id);
+//    }
     
     // 회원 중복체크
     private void validateDuplicateMember(Member member){
@@ -91,7 +91,4 @@ public class MemberService implements UserDetailsService {
     		}
     }
 
-	public MemberFormDto findById(Long memId) {
-		return null;
-	}
 }

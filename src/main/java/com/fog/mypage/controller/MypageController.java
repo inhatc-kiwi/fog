@@ -75,13 +75,17 @@ public class MypageController {
 
 	// 마이페이지 - 포그 관리
 	@GetMapping("/fogEdit")
-	public String mypageFogEdit(Model model) {
+	public String mypageFogEdit(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+		String fogId = principalDetails.getMember().getFogid();
+		model.addAttribute("fogId", fogId);
 		return "/mypage/mypageFogEdit";
 	}
 
 	// 마이페이지 - 설정
 	@GetMapping("/setting")
-	public String mypageSetting(Model model) {
+	public String mypageSetting(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+		String fogId = principalDetails.getMember().getFogid();
+		model.addAttribute("fogId", fogId);
 		return "/mypage/mypageSetting";
 	}
 

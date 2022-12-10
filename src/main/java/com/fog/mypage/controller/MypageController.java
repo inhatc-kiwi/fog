@@ -18,6 +18,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fog.config.auth.PrincipalDetails;
+import com.fog.hitCount.entity.HitCount;
+import com.fog.hitCount.service.HitCountService;
+import com.fog.member.entity.Member;
 import com.fog.mypage.constant.PrivateYn;
 import com.fog.mypage.dto.CategoryUpdateDto;
 import com.fog.mypage.dto.CategoryWriteDto;
@@ -26,6 +29,7 @@ import com.fog.mypage.entity.CategoryContent;
 import com.fog.mypage.repository.CategoryRepository;
 import com.fog.mypage.service.CategoryContentService;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 
 @RequestMapping("/mypage")
@@ -36,15 +40,38 @@ public class MypageController {
 	@Autowired
 	private CategoryContentService categoryContentService;
 
-	@Autowired
-	private CategoryRepository categoryRepository;
+  @Autowired
+  private CategoryRepository categoryRepository;
+  
+  @Autowired
+	private HitCountService countService;
+
 
 	@Value("${contentImgLocation}")
 	private String contentImgLocation;
 
-	// 마이페이지 - 메인
+	// 마이페이지 - 메인 (방문자 통계)
 	@GetMapping("/main")
-	public String mypageMain(Model model) {
+	public String mypageMain(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+		// 방문자 통계
+		String fogId = principalDetails.getMember().getFogid();
+		List<HitCount> lists = countService.countList();
+		model.addAttribute("lists", lists);
+		model.addAttribute("fogId", fogId);
+//		System.out.println(">>>>>>>>>>>>>>>> list.fogId : " + lists.get(0).getFogId());
+
+		String memFogId = principalDetails.getMember().getFogid();
+//		System.out.println(">>>>>>>>>>>>>>> : memFogId : " + memFogId);
+		model.addAttribute("memFogId", memFogId);
+
+		int counts = 0;
+		for(int i = 0; i < lists.size(); i++) {
+			if(lists.get(i).getFogId().equals(memFogId)) { 
+				// 방문자 목록 중 내 포그 아이디 검색
+				counts += 1;
+			}
+		}
+		model.addAttribute("total", counts);
 		return "/mypage/mypageMain";
 	}
 
@@ -75,13 +102,17 @@ public class MypageController {
 
 	// 마이페이지 - 포그 관리
 	@GetMapping("/fogEdit")
-	public String mypageFogEdit(Model model) {
+	public String mypageFogEdit(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+		String fogId = principalDetails.getMember().getFogid();
+		model.addAttribute("fogId", fogId);
 		return "/mypage/mypageFogEdit";
 	}
 
 	// 마이페이지 - 설정
 	@GetMapping("/setting")
-	public String mypageSetting(Model model) {
+	public String mypageSetting(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+		String fogId = principalDetails.getMember().getFogid();
+		model.addAttribute("fogId", fogId);
 		return "/mypage/mypageSetting";
 	}
 

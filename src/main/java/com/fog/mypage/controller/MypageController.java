@@ -77,7 +77,10 @@ public class MypageController {
 
 	// 마이페이지 - 카테고리 관리
 	@GetMapping("/category")
-	public String mypageCategory(Model model) {
+	public String mypageCategory(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+		String fogId = principalDetails.getMember().getFogid();
+		model.addAttribute("fogId", fogId);
+		
 		List<Category> lists = categoryRepository.findAll();
 		model.addAttribute("lists", lists);
 		return "/mypage/mypageCategory";
@@ -85,7 +88,10 @@ public class MypageController {
 
 	// 마이페이지 - 카테고리 관리
 	@GetMapping("/category/update")
-	public String mypageCategoryUpdate(Model model) {
+	public String mypageCategoryUpdate(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+		String fogId = principalDetails.getMember().getFogid();
+		model.addAttribute("fogId", fogId);
+		
 		List<Category> lists = categoryRepository.findAll();
 		model.addAttribute("lists", lists);
 		model.addAttribute("categoryUpdateDto", new CategoryUpdateDto());
@@ -118,7 +124,10 @@ public class MypageController {
 
 	// 마이페이지 - 작성하기
 	@GetMapping("/write")
-	public String mypageWrite(Model model) {
+	public String mypageWrite(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+		String fogId = principalDetails.getMember().getFogid();
+		model.addAttribute("fogId", fogId);
+		
 		model.addAttribute("categoryWriteDto", new CategoryWriteDto());
 		model.addAttribute("private", PrivateYn.values());
 		return "/mypage/mypageWrite";

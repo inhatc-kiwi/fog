@@ -26,6 +26,10 @@ public class Category {
     private Long id;
     
     // 카테고리 종류
-    @Column(name="category_type")
+    @Column(unique = true,name="category_type")
     private String type;
+    
+    public void updateCategory() {
+    	
+    }
 }

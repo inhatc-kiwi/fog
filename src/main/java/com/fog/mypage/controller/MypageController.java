@@ -1,6 +1,7 @@
 package com.fog.mypage.controller;
 
 import java.io.File;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,11 @@ import com.fog.hitCount.entity.HitCount;
 import com.fog.hitCount.service.HitCountService;
 import com.fog.member.entity.Member;
 import com.fog.mypage.constant.PrivateYn;
+import com.fog.mypage.dto.CategoryUpdateDto;
 import com.fog.mypage.dto.CategoryWriteDto;
+import com.fog.mypage.entity.Category;
 import com.fog.mypage.entity.CategoryContent;
+import com.fog.mypage.repository.CategoryRepository;
 import com.fog.mypage.service.CategoryContentService;
 
 import java.util.List;
@@ -36,8 +40,12 @@ public class MypageController {
 	@Autowired
 	private CategoryContentService categoryContentService;
 
-	@Autowired
+  @Autowired
+  private CategoryRepository categoryRepository;
+  
+  @Autowired
 	private HitCountService countService;
+
 
 	@Value("${contentImgLocation}")
 	private String contentImgLocation;
@@ -70,7 +78,26 @@ public class MypageController {
 	// 마이페이지 - 카테고리 관리
 	@GetMapping("/category")
 	public String mypageCategory(Model model) {
+		List<Category> lists = categoryRepository.findAll();
+		model.addAttribute("lists", lists);
 		return "/mypage/mypageCategory";
+	}
+
+	// 마이페이지 - 카테고리 관리
+	@GetMapping("/category/update")
+	public String mypageCategoryUpdate(Model model) {
+		List<Category> lists = categoryRepository.findAll();
+		model.addAttribute("lists", lists);
+		model.addAttribute("categoryUpdateDto", new CategoryUpdateDto());
+		return "/mypage/mypageCategory";
+	}
+
+	// 마이페이지 - 카테고리 수정
+	@PostMapping("/category/update")
+	public String mypageCategoryPost(CategoryUpdateDto categoryUpdateDto, Model model) {
+		System.out.println("-=============== 카테고리 관리 POST : " + categoryUpdateDto);
+
+		return "redirect:/mypage/main";
 	}
 
 	// 마이페이지 - 포그 관리

@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fog.member.entity.Member;
-import com.fog.mypage.dto.CategoryDto;
+import com.fog.mypage.dto.CategoryWriteDto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -52,11 +52,11 @@ public class CategoryContent {
 	private Member member;
 	
 	// 객체 생성
-	public static CategoryContent createContent(CategoryDto categoryDto) {
+	public static CategoryContent createContent(CategoryWriteDto categoryWriteDto) {
 		CategoryContent content = new CategoryContent();
-		content.setContent(categoryDto.getContent());
-		content.setCategoryYn(categoryDto.getCategoryYn());
-		content.setTitle(categoryDto.getTitle());
+		content.setContent(categoryWriteDto.getContent());
+		content.setCategoryYn(categoryWriteDto.getCategoryYn());
+		content.setTitle(categoryWriteDto.getTitle());
 		return content;
 	}
 }

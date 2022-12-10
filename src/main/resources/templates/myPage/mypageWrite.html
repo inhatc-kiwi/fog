@@ -87,7 +87,7 @@
 			<Br><Br><Br>
 			<h2 style="font-weight: bold; margin-left: 200px;">작성하기</h2>
 			<div style="border: 1px solid #094B80; background-color: white; float: center; height: 750px; width: 850px; margin-right: 15px; margin-left: 200px; margin-top: 30px; text-align: center;">
-				<form class="signup-form" th:object="${categoryDto}" action="/mypage/write" role="form" method="post" name="join_form" enctype="multipart/form-data">
+				<form class="signup-form" th:object="${categoryWriteDto}" action="/mypage/write" role="form" method="post" name="join_form" enctype="multipart/form-data">
 				<!-- 카테고리 -->
 				<div style="float: left; width: 25%; margin-top: 20px;">
 					<select class="form-select border-1" id="selectbox" th:field="*{category}" style="height: 50px; width: 180px; margin-left: 30px;">

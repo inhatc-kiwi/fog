@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fog.config.auth.PrincipalDetails;
 import com.fog.mypage.constant.PrivateYn;
-import com.fog.mypage.dto.CategoryDto;
+import com.fog.mypage.dto.CategoryWriteDto;
 import com.fog.mypage.entity.CategoryContent;
 import com.fog.mypage.service.CategoryContentService;
 
@@ -62,23 +62,24 @@ public class MypageController {
 	// 마이페이지 - 작성하기
 	@GetMapping("/write")
 	public String mypageWrite(Model model) {
-		model.addAttribute("categoryDto", new CategoryDto());
+		model.addAttribute("categoryWriteDto", new CategoryWriteDto());
 		model.addAttribute("private", PrivateYn.values());
 		return "/mypage/mypageWrite";
 	}
 	
 	// 마이페이지 - 작성하기
 	@PostMapping("/write")
-	public String mypageWritePost(@AuthenticationPrincipal PrincipalDetails principalDetails, CategoryDto categoryDto, Model model, @RequestParam(value="radio" , required=false) String radio) {
-		categoryDto.setCategoryYn(radio);
-		String category_id = categoryDto.getCategory();
+	public String mypageWritePost(@AuthenticationPrincipal PrincipalDetails principalDetails, CategoryWriteDto categoryWriteDto, Model model, @RequestParam(value="radio" , required=false) String radio) {
+		categoryWriteDto.setCategoryYn(radio);
+		String category_id = categoryWriteDto.getCategory();
 		
-		CategoryContent content = CategoryContent.createContent(categoryDto);
+		CategoryContent content = CategoryContent.createContent(categoryWriteDto);
 		categoryContentService.saveContent(principalDetails, content, category_id);
 		
 		return "redirect:/mypage/main";
 	}
 	
+	// ckeditor 이미지 처리
 	@PostMapping(value = "/image/upload")
 	public ModelAndView image(MultipartHttpServletRequest request) throws Exception {
 

@@ -360,11 +360,11 @@ body {
 	<!-- 모달 -->
 			<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel"
 				aria-hidden="true">
-				<div class="modal-dialog" style="display: flex;width:400px;">
+				<div class="modal-dialog" style="display: flex; width:500px;">
 					<div class="modal-content">
-						<div class="modal-body" style="height: 60px; width: 350px; text-align: center; color: black; margin-top: 20px;">
+						<div class="modal-body" style="height: 60px; width: 500px; text-align: center; color: black; margin-top: 20px;">
 							<div style="font-weight: bold; font-size: 16px;">공유 URL을 복사하세요!</div>
-							<input id="myFog" th:value="'http://localhost/fog/' + ${fogid}" readonly style=" border: none; outline: none; padding: 0px; text-align: center; margin-top: 10px;">
+							<input id="myFog" th:value="'http://localhost/fog/' + ${fogid}" readonly style="width:100%; border: none; outline: none; padding: 0px; text-align: center; margin-top: 10px;">
 						</div>
 						<div class="modal-footer" style="border: none">
 							<button type="button" class="btn btn-cancel" onclick="copy_to_clipboard()" style="background-color: #BFDDF9; border-color: #094B80;">확인</button>

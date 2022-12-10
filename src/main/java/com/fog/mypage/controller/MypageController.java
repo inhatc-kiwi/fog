@@ -1,6 +1,7 @@
 package com.fog.mypage.controller;
 
 import java.io.File;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fog.config.auth.PrincipalDetails;
 import com.fog.mypage.constant.PrivateYn;
+import com.fog.mypage.dto.CategoryUpdateDto;
 import com.fog.mypage.dto.CategoryWriteDto;
+import com.fog.mypage.entity.Category;
 import com.fog.mypage.entity.CategoryContent;
+import com.fog.mypage.repository.CategoryRepository;
 import com.fog.mypage.service.CategoryContentService;
 
 import lombok.RequiredArgsConstructor;
@@ -28,10 +32,13 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class MypageController {
-	
+
 	@Autowired
 	private CategoryContentService categoryContentService;
-	
+
+	@Autowired
+	private CategoryRepository categoryRepository;
+
 	@Value("${contentImgLocation}")
 	private String contentImgLocation;
 
@@ -40,19 +47,38 @@ public class MypageController {
 	public String mypageMain(Model model) {
 		return "/mypage/mypageMain";
 	}
-	
+
 	// 마이페이지 - 카테고리 관리
 	@GetMapping("/category")
 	public String mypageCategory(Model model) {
+		List<Category> lists = categoryRepository.findAll();
+		model.addAttribute("lists", lists);
 		return "/mypage/mypageCategory";
 	}
-	
+
+	// 마이페이지 - 카테고리 관리
+	@GetMapping("/category/update")
+	public String mypageCategoryUpdate(Model model) {
+		List<Category> lists = categoryRepository.findAll();
+		model.addAttribute("lists", lists);
+		model.addAttribute("categoryUpdateDto", new CategoryUpdateDto());
+		return "/mypage/mypageCategory";
+	}
+
+	// 마이페이지 - 카테고리 수정
+	@PostMapping("/category/update")
+	public String mypageCategoryPost(CategoryUpdateDto categoryUpdateDto, Model model) {
+		System.out.println("-=============== 카테고리 관리 POST : " + categoryUpdateDto);
+
+		return "redirect:/mypage/main";
+	}
+
 	// 마이페이지 - 포그 관리
 	@GetMapping("/fogEdit")
 	public String mypageFogEdit(Model model) {
 		return "/mypage/mypageFogEdit";
 	}
-	
+
 	// 마이페이지 - 설정
 	@GetMapping("/setting")
 	public String mypageSetting(Model model) {
@@ -66,19 +92,21 @@ public class MypageController {
 		model.addAttribute("private", PrivateYn.values());
 		return "/mypage/mypageWrite";
 	}
-	
+
 	// 마이페이지 - 작성하기
 	@PostMapping("/write")
-	public String mypageWritePost(@AuthenticationPrincipal PrincipalDetails principalDetails, CategoryWriteDto categoryWriteDto, Model model, @RequestParam(value="radio" , required=false) String radio) {
+	public String mypageWritePost(@AuthenticationPrincipal PrincipalDetails principalDetails,
+			CategoryWriteDto categoryWriteDto, Model model,
+			@RequestParam(value = "radio", required = false) String radio) {
 		categoryWriteDto.setCategoryYn(radio);
 		String category_id = categoryWriteDto.getCategory();
-		
+
 		CategoryContent content = CategoryContent.createContent(categoryWriteDto);
 		categoryContentService.saveContent(principalDetails, content, category_id);
-		
+
 		return "redirect:/mypage/main";
 	}
-	
+
 	// ckeditor 이미지 처리
 	@PostMapping(value = "/image/upload")
 	public ModelAndView image(MultipartHttpServletRequest request) throws Exception {

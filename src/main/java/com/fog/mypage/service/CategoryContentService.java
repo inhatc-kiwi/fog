@@ -1,6 +1,9 @@
 package com.fog.mypage.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +29,7 @@ public class CategoryContentService {
 	@Autowired
 	private MemberRepository memberRepository;
 	
+	// 마이페이지 작성하기 
 	public CategoryContent saveContent(@AuthenticationPrincipal PrincipalDetails principalDetails,CategoryContent categoryContent,String Category_id) {
 		Long member_id = principalDetails.getMember().getId();
 		Member member = memberRepository.findMemberById(member_id);
@@ -36,6 +40,11 @@ public class CategoryContentService {
 		categoryContent.setCategory(category);
 		
 		return categoryContentRepository.save(categoryContent);
+	}
+	 
+	public void allCatgory() {
+		
+		List<Category> categoryAll = categoryRepository.findAll();
 	}
 	
 }

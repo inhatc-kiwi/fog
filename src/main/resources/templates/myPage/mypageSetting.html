@@ -79,6 +79,11 @@ li a:hover { /* 마우스 갖다 대면 */
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
+.profile { /*프로필 사진*/
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
 </style>
 
 <!-- 사용자 스크립트 추가 -->
@@ -105,7 +110,7 @@ li a:hover { /* 마우스 갖다 대면 */
 		<div
 			style="border: 1px solid #094B80; background-color: white; float: center; height: 70px; width: 340px; margin-right: 15px; margin-left: 30px; text-align: center; margin-bottom: 5px">
 
-			<h5
+			<h5 th:text="*{name}"
 				style="float: left; margin-left: 20px; margin-bottom: 0px; margin-top: 10px; color: black;">스누피</h5>
 			<br> <a th:href="'http://localhost/fog/' + ${fogId}"
 				th:text="'http://localhost/fog/' + ${fogId}"
@@ -133,7 +138,10 @@ li a:hover { /* 마우스 갖다 대면 */
 			<h2 style="font-weight: bold; margin-left: 200px;">설 정</h2>
 			<div
 				style="border: 1px solid #094B80; background-color: white; float: center; height: 650px; width: 800px; margin-right: 15px; margin-left: 200px; margin-top: 30px; text-align: center;">
+				
 				<!-- 프로필 사진 -->
+ 				<img class="profile" th:src="*{image} != null ? *{image} : @{/img/포그.png}" alt="fog" style="border:1px solid black; margin-top: 30px; width: 215px; height: 215px; object-fit: cover; border-radius: 30%; overflow: hidden;">
+    
 				<div
 					style="text-align: left; margin-left: 40px; margin-top: 25px; font-size: 20px; font-weight: bold;">프로필
 					사진</div>
@@ -144,12 +152,10 @@ li a:hover { /* 마우스 갖다 대면 */
 				</div>
 
 				<!-- 포그 이름 -->
-				<div
-					style="text-align: left; margin-left: 40px; margin-top: 23px; font-size: 20px; font-weight: bold;">포그
-					이름</div>
+				<div style="text-align: left; margin-left: 40px; margin-top: 23px; font-size: 20px; font-weight: bold;">포그 이름</div>
 				<br> <input class="fogText" type="text" name="fog_name"
 					style="width: 700px; font-size: 20px; letter-spacing: 4px; text-align: left; margin-left: 45px; float: left; padding: 5px;"
-					value="스누피"> <br>
+					th:value="*{name}"> <br> 
 
 				<!-- 분야 / 공개여부 - 타이틀 -->
 				<div style="float: left; width: 50%; margin-top: 20px;">
@@ -193,21 +199,21 @@ li a:hover { /* 마우스 갖다 대면 */
 				<br>
 				<Br>
 				<!-- 썸네일 -->
-				<div
+				<!-- <div
 					style="text-align: left; margin-left: 40px; margin-top: 50px; font-size: 20px; font-weight: bold;">썸네일</div>
 				<br>
 				<div class="input-group mb-3"
 					style="margin-left: 40px; width: 700px;">
 					<input type="file" class="form-control" id="inputGroupFile02">
-				</div>
+				</div> -->
 
 				<!-- 비밀번호 변경 -->
-				<div
+				<!-- <div
 					style="text-align: left; margin-left: 40px; margin-top: 25px; font-size: 20px; font-weight: bold;">비밀번호
 					변경</div>
 				<br> <input class="fogText" type="password" name="fog_name"
 					style="width: 700px; font-size: 20px; letter-spacing: 4px; text-align: left; margin-left: 45px; float: left; padding: 5px;"
-					value="12345678"> <br> <Br>
+					value="12345678">  --><br> <Br>
 
 			</div>
 			<Br>

@@ -40,12 +40,11 @@ public class MypageController {
 	@Autowired
 	private CategoryContentService categoryContentService;
 
-  @Autowired
-  private CategoryRepository categoryRepository;
-  
-  @Autowired
-	private HitCountService countService;
+	@Autowired
+	private CategoryRepository categoryRepository;
 
+	@Autowired
+	private HitCountService countService;
 
 	@Value("${contentImgLocation}")
 	private String contentImgLocation;
@@ -58,15 +57,16 @@ public class MypageController {
 		List<HitCount> lists = countService.countList();
 		model.addAttribute("lists", lists);
 		model.addAttribute("fogId", fogId);
-//		System.out.println(">>>>>>>>>>>>>>>> list.fogId : " + lists.get(0).getFogId());
 
 		String memFogId = principalDetails.getMember().getFogid();
-//		System.out.println(">>>>>>>>>>>>>>> : memFogId : " + memFogId);
 		model.addAttribute("memFogId", memFogId);
+		
+		String name = principalDetails.getMember().getName();
+		model.addAttribute("name", name);
 
 		int counts = 0;
-		for(int i = 0; i < lists.size(); i++) {
-			if(lists.get(i).getFogId().equals(memFogId)) { 
+		for (int i = 0; i < lists.size(); i++) {
+			if (lists.get(i).getFogId().equals(memFogId)) {
 				// 방문자 목록 중 내 포그 아이디 검색
 				counts += 1;
 			}
@@ -80,7 +80,7 @@ public class MypageController {
 	public String mypageCategory(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
 		String fogId = principalDetails.getMember().getFogid();
 		model.addAttribute("fogId", fogId);
-		
+
 		List<Category> lists = categoryRepository.findAll();
 		model.addAttribute("lists", lists);
 		return "/mypage/mypageCategory";
@@ -91,7 +91,7 @@ public class MypageController {
 	public String mypageCategoryUpdate(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
 		String fogId = principalDetails.getMember().getFogid();
 		model.addAttribute("fogId", fogId);
-		
+
 		List<Category> lists = categoryRepository.findAll();
 		model.addAttribute("lists", lists);
 		model.addAttribute("categoryUpdateDto", new CategoryUpdateDto());
@@ -111,6 +111,10 @@ public class MypageController {
 	public String mypageFogEdit(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
 		String fogId = principalDetails.getMember().getFogid();
 		model.addAttribute("fogId", fogId);
+		
+		String name = principalDetails.getMember().getName();
+		model.addAttribute("name", name);
+		
 		return "/mypage/mypageFogEdit";
 	}
 
@@ -119,6 +123,13 @@ public class MypageController {
 	public String mypageSetting(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
 		String fogId = principalDetails.getMember().getFogid();
 		model.addAttribute("fogId", fogId);
+		
+		String imgUrl = principalDetails.getMember().getImage();
+		model.addAttribute("image", imgUrl);
+		
+		String name = principalDetails.getMember().getName();
+		model.addAttribute("name", name);
+		
 		return "/mypage/mypageSetting";
 	}
 
@@ -127,7 +138,7 @@ public class MypageController {
 	public String mypageWrite(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
 		String fogId = principalDetails.getMember().getFogid();
 		model.addAttribute("fogId", fogId);
-		
+
 		model.addAttribute("categoryWriteDto", new CategoryWriteDto());
 		model.addAttribute("private", PrivateYn.values());
 		return "/mypage/mypageWrite";

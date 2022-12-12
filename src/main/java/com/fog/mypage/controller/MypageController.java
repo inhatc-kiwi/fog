@@ -86,24 +86,36 @@ public class MypageController {
 		return "/mypage/mypageCategory";
 	}
 
-	// 마이페이지 - 카테고리 관리
+	// 마이페이지 - 카테고리 수정
 	@GetMapping("/category/update")
 	public String mypageCategoryUpdate(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
 		String fogId = principalDetails.getMember().getFogid();
 		model.addAttribute("fogId", fogId);
 		
-		List<Category> lists = categoryRepository.findAll();
-		model.addAttribute("lists", lists);
+//		List<Category> lists = categoryRepository.findAll();
+//		model.addAttribute("lists", lists);
+		
+		for (Long i = Long.valueOf(1); i < 6; i++) {
+			Category category = categoryRepository.findCategoryById(i);
+			model.addAttribute("category"+i, category);
+		}
+		
 		model.addAttribute("categoryUpdateDto", new CategoryUpdateDto());
-		return "/mypage/mypageCategory";
+		return "/mypage/mypageCategoryUpdate";
 	}
 
 	// 마이페이지 - 카테고리 수정
 	@PostMapping("/category/update")
 	public String mypageCategoryPost(CategoryUpdateDto categoryUpdateDto, Model model) {
-		System.out.println("-=============== 카테고리 관리 POST : " + categoryUpdateDto);
-
-		return "redirect:/mypage/main";
+//		System.out.println("-=============== 카테고리 관리 POST : " + categoryUpdateDto);
+//		System.out.println("-=============== 카테고리 Id : " + categoryUpdateDto.getId());
+//		System.out.println("-=============== 카테고리 Type : " + categoryUpdateDto.getType());
+		
+		
+		
+		categoryContentService.updateContent(categoryUpdateDto);
+		
+		return "redirect:/mypage/category";
 	}
 
 	// 마이페이지 - 포그 관리

@@ -141,8 +141,7 @@ li a:hover { /* 마우스 갖다 대면 */
 
 						<input class="categoryTitle" type="text" name="category_1"
 							disabled
-							style="width: 700px; font-size: 23px; letter-spacing: 4px; text-align: left; margin-left: 50px; float: left; border: none; background-color: transparent;"
-							th:value="${vo.type}">
+							style="width: 700px; font-size: 23px; letter-spacing: 4px; text-align: left; margin-left: 50px; float: left; border: none; background-color: transparent; color: black;" th:value="${vo.type}">
 					</div>
 
 					<!--  
@@ -162,13 +161,13 @@ li a:hover { /* 마우스 갖다 대면 */
 			</div>
 			<br>
 			<br>
-			<button type="button" class="btn btn-fog"
-				style="width: 120px; float: right; margin-right: 80px;"
-				onclick="check();">수&nbsp;정</button>
+			<button type="button" class="btn btn-fog" style="width: 120px; float: right; margin-right: 80px;" onclick="location.href='/mypage/category/update';">수&nbsp;정</button>
 
 			<br> <br>
 		</div>
 	</div>
 </div>
+
+
 <div th:replace="fragments/mypageFooter::footer"></div>
 </html>

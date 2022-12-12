@@ -212,8 +212,9 @@ li a:hover { /* 마우스 갖다 대면 */
 						<div style="float: left; width: 30%; margin-top: 5px;">
 							<button type="button" class="btn btn-fog"
 								style="width: 100px; margin-right: 7px;" onclick="check();">수&nbsp;정</button>
+								<a href="/mypage/fogEdit/delete/" th:attrappend="href=${vo.id}">
 							<button type="button" class="btn btn-fog" style="width: 100px;"
-								onclick="check();">삭&nbsp;제</button>
+								onclick="alert('포그가 삭제되었습니다.');">삭&nbsp;제</button></a>
 						</div>
 						<br> <Br>
 						<hr style="color: #094B80;">

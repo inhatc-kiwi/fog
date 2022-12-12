@@ -75,5 +75,10 @@ public class CategoryContentService {
 			categoryRepository.save(category);
 		}
 	}
+
+	// 포그 삭제
+	public void deletefog(Long id) {
+		categoryContentRepository.deleteById(id);
+	}
 	
 }

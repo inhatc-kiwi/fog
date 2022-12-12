@@ -1,5 +1,6 @@
 package com.fog.fog.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,11 +59,21 @@ public class CategoryController {
 		countService.hitCountSave(fogid, "날짜", hitcount);
 		System.out.println("조회수 증가");
 		
-//		Long memId = principalDetails.getMember().getId();
-//		Optional<Member> dto = memberRepository.findById(memId);
-//		memberService.updateView(memId); // views ++
-//        model.addAttribute("view", dto); // 조회수
-//        System.out.println(">>>>>>>>>> 조회수 : " + dto);
+		List<Category> lists = categoryRepository.findAll();		
+		List<String> categorys = new ArrayList<>(); // 로그인한 사용자의 카테고리 이름을 저장할 리스트 선언
+		
+		for (int i = 0; i < lists.size(); i++) {
+			if(lists.get(i).getMember().getId().equals(principalDetails.getMember().getId())) {
+				String categoryName = lists.get(i).getType();
+				categorys.add(categoryName); // 리스트에 카테고리 이름 저장
+			}
+		}
+		model.addAttribute("categorys1", categorys.get(0));
+		model.addAttribute("categorys2", categorys.get(1));
+		model.addAttribute("categorys3", categorys.get(2));
+		model.addAttribute("categorys4", categorys.get(3));
+		model.addAttribute("categorys5", categorys.get(4));
+		
 		return "/fog/fogMain";
 	}
 	

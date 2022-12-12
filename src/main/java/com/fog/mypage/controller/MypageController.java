@@ -88,6 +88,10 @@ public class MypageController {
 		Long memId = principalDetails.getMember().getId();
 		model.addAttribute("memId", memId);
 		
+		// 사용자 이름
+		String name = principalDetails.getMember().getName();
+		model.addAttribute("name", name);
+		
 		List<Category> lists = categoryRepository.findAll();
 		model.addAttribute("lists", lists);
 		

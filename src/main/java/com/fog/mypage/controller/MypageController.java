@@ -38,6 +38,7 @@ import com.fog.mypage.dto.CategoryWriteDto;
 import com.fog.mypage.dto.MemberUpdateDto;
 import com.fog.mypage.entity.Category;
 import com.fog.mypage.entity.CategoryContent;
+import com.fog.mypage.repository.CategoryContentRepository;
 import com.fog.mypage.repository.CategoryRepository;
 import com.fog.mypage.service.CategoryContentService;
 
@@ -54,19 +55,22 @@ public class MypageController {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
-	
+
+	@Autowired
+	private CategoryContentRepository categoryContentRepository;
+
 	@Autowired
 	private MemberRepository memberRepository;
 
 	@Autowired
 	private HitCountService countService;
-	
+
 	@Autowired
 	private MemberService memberService;
 
 	@Value("${contentImgLocation}")
 	private String contentImgLocation;
-	
+
 	@Value("${profileImgLocation}")
 	private String profileImgLocation;
 
@@ -161,11 +165,10 @@ public class MypageController {
 	// 마이페이지 - 카테고리 수정
 	@PostMapping("/category/update")
 	public String mypageCategoryPost(CategoryUpdateDto categoryUpdateDto, Model model) {
-		System.out.println("-=============== 카테고리 관리 POST : " + categoryUpdateDto);
-		System.out.println("-=============== 카테고리 Id : " + categoryUpdateDto.getId());
-		System.out.println("-=============== 카테고리 Type : " + categoryUpdateDto.getType());
+//		System.out.println("-=============== 카테고리 관리 POST : " + categoryUpdateDto);
+//		System.out.println("-=============== 카테고리 Id : " + categoryUpdateDto.getId());
+//		System.out.println("-=============== 카테고리 Type : " + categoryUpdateDto.getType());
 
-//		categoryContentService.updateContent(categoryUpdateDto);
 		Long id = categoryUpdateDto.getId();
 		String type = categoryUpdateDto.getType();
 		categoryContentService.updateCtegory(id, type);
@@ -187,7 +190,42 @@ public class MypageController {
 		Member member = memberRepository.findMemberById(id);
 		model.addAttribute("member", member);
 
+		List<CategoryContent> lists = categoryContentRepository.findAll();
+		model.addAttribute("lists", lists);
+
+		// 카테고리 출력
+		List<Category> list = categoryRepository.findAll();
+		List<String> categorys = new ArrayList<>(); // 로그인한 사용자의 카테고리 이름을 저장할 리스트 선언
+		List<Long> categorysIds = new ArrayList<>(); // 로그인한 사용자의 카테고리 ID 저장 리스트
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getMember().getId().equals(principalDetails.getMember().getId())) {
+				String categoryName = list.get(i).getType();
+				Long categorysId = list.get(i).getId();
+				categorys.add(categoryName); // 리스트에 카테고리 이름 저장
+				categorysIds.add(categorysId); // 리스트에 카테고리 이름 저장
+			}
+		}
+		model.addAttribute("categorys1", categorys.get(0));
+		model.addAttribute("categorys2", categorys.get(1));
+		model.addAttribute("categorys3", categorys.get(2));
+		model.addAttribute("categorys4", categorys.get(3));
+		model.addAttribute("categorys5", categorys.get(4));
+
+		model.addAttribute("categorysID1", categorysIds.get(0));
+		model.addAttribute("categorysID2", categorysIds.get(1));
+		model.addAttribute("categorysID3", categorysIds.get(2));
+		model.addAttribute("categorysID4", categorysIds.get(3));
+		model.addAttribute("categorysID5", categorysIds.get(4));
+
 		return "/mypage/mypageFogEdit";
+	}
+
+	// 마이페이지 - 포그 삭제
+	@GetMapping(value = "/fogEdit/delete/{id}")
+	public String fogDelete(@PathVariable("id") Long id) {
+		System.out.println(">>>>>>>>>>  포그 삭제 컨트롤러 접근");
+		categoryContentService.deletefog(id);
+		return "redirect:/mypage/fogEdit";
 	}
 
 	// 마이페이지 - 설정
@@ -199,35 +237,34 @@ public class MypageController {
 		model.addAttribute("member", member);
 		model.addAttribute("local", Area.values());
 		model.addAttribute("memberUpdateDto", new MemberUpdateDto());
-		
+
 		return "/mypage/mypageSetting";
 	}
-	
+
 	// 마이페이지 - 설정
 	@PostMapping("/setting/insert_image")
-	public String image_insert(@AuthenticationPrincipal PrincipalDetails principalDetails,MemberUpdateDto memberUpdateDto, HttpServletRequest request, Model model
-			,@RequestParam(value = "radio", required = false) String radio) throws Exception {
-		
-		System.out.println("===============>name : " + memberUpdateDto.getName());
-		System.out.println("===============>getAllPublicYn : " + memberUpdateDto.getAllPublicYn());
-		System.out.println("===============>Area : " + memberUpdateDto.getArea());
-		System.out.println("===============>Filename : " + memberUpdateDto.getFilename());
-		
-		
+	public String image_insert(@AuthenticationPrincipal PrincipalDetails principalDetails,
+			MemberUpdateDto memberUpdateDto, HttpServletRequest request, Model model,
+			@RequestParam(value = "radio", required = false) String radio) throws Exception {
+
+//		System.out.println("===============>name : " + memberUpdateDto.getName());
+//		System.out.println("===============>getAllPublicYn : " + memberUpdateDto.getAllPublicYn());
+//		System.out.println("===============>Area : " + memberUpdateDto.getArea());
+//		System.out.println("===============>Filename : " + memberUpdateDto.getFilename());
+
 		memberUpdateDto.setAllPublicYn(radio);
 		Long id = principalDetails.getMember().getId();
 		Member member = memberRepository.findMemberById(id);
-		
+
 		// 파일의 오리지널 네임
-		//String originalFileName = mFile.getOriginalFilename();
-		//String ext = originalFileName.substring(originalFileName.indexOf("."));
+		// String originalFileName = mFile.getOriginalFilename();
+		// String ext = originalFileName.substring(originalFileName.indexOf("."));
 		String originalFileName = memberUpdateDto.getFilename().getOriginalFilename();
-		
-		
+
 		// 이미지 수정 안 하는 경우
-		if(originalFileName.equals("")) {
+		if (originalFileName.equals("")) {
 			memberService.updateProfile(member, memberUpdateDto);
-		} 
+		}
 		// 이미지 수정 하는 경우
 		else {
 			String ext = originalFileName.substring(originalFileName.indexOf("."));
@@ -239,41 +276,39 @@ public class MypageController {
 					File file = new File(profileImgLocation + member.getImage()); // 경로 + 유저 프로필사진 이름을 가져와서
 					file.delete(); // 원래파일 삭제
 				}
-				//mFile.transferTo(new File(profileImgLocation + newFileName)); // 경로에 업로드
+				// mFile.transferTo(new File(profileImgLocation + newFileName)); // 경로에 업로드
 				memberUpdateDto.getFilename().transferTo(new File(profileImgLocation + newFileName)); // 경로에 업로드
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			memberService.updateImage(member, uploadPath,memberUpdateDto);
+			memberService.updateImage(member, uploadPath, memberUpdateDto);
 		}
-		
-		
+
 		return "redirect:/mypage/setting";
 	}
-	
-	
 
 	// 마이페이지 - 작성하기
 	@GetMapping("/write")
 	public String mypageWrite(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
-		//String fogId = principalDetails.getMember().getFogid();
-		//model.addAttribute("fogId", fogId);
+		// String fogId = principalDetails.getMember().getFogid();
+		// model.addAttribute("fogId", fogId);
 		Long id = principalDetails.getMember().getId();
 		Member member = memberRepository.findMemberById(id);
 		model.addAttribute("member", member);
-		
-		
+
 		model.addAttribute("categoryWriteDto", new CategoryWriteDto());
 		model.addAttribute("private", PrivateYn.values());
 
 		// 카테고리 출력
 		List<Category> lists = categoryRepository.findAll();
 		List<String> categorys = new ArrayList<>(); // 로그인한 사용자의 카테고리 이름을 저장할 리스트 선언
-
+		List<Long> categorysIds = new ArrayList<>(); // 로그인한 사용자의 카테고리 ID 저장 리스트
 		for (int i = 0; i < lists.size(); i++) {
 			if (lists.get(i).getMember().getId().equals(principalDetails.getMember().getId())) {
 				String categoryName = lists.get(i).getType();
+				Long categorysId = lists.get(i).getId();
 				categorys.add(categoryName); // 리스트에 카테고리 이름 저장
+				categorysIds.add(categorysId); // 리스트에 카테고리 이름 저장
 			}
 		}
 		model.addAttribute("categorys1", categorys.get(0));
@@ -281,16 +316,66 @@ public class MypageController {
 		model.addAttribute("categorys3", categorys.get(2));
 		model.addAttribute("categorys4", categorys.get(3));
 		model.addAttribute("categorys5", categorys.get(4));
+
+		model.addAttribute("categorysID1", categorysIds.get(0));
+		model.addAttribute("categorysID2", categorysIds.get(1));
+		model.addAttribute("categorysID3", categorysIds.get(2));
+		model.addAttribute("categorysID4", categorysIds.get(3));
+		model.addAttribute("categorysID5", categorysIds.get(4));
+
 		return "/mypage/mypageWrite";
+	}
+
+	// 마이페이지 - 포그 수정하기
+	@GetMapping(value = "/fogEdit/update/{id}")
+	public String mypageFogUpdate(@PathVariable("id") Long id, Model model,
+			@AuthenticationPrincipal PrincipalDetails principalDetails) {
+		Long memid = principalDetails.getMember().getId();
+		Member member = memberRepository.findMemberById(memid);
+		model.addAttribute("member", member);
+
+		model.addAttribute("categoryWriteDto", new CategoryWriteDto());
+		model.addAttribute("private", PrivateYn.values());
+
+		// 카테고리 출력
+		List<Category> lists = categoryRepository.findAll();
+		List<String> categorys = new ArrayList<>(); // 로그인한 사용자의 카테고리 이름을 저장할 리스트 선언
+		List<Long> categorysIds = new ArrayList<>(); // 로그인한 사용자의 카테고리 ID 저장 리스트
+		for (int i = 0; i < lists.size(); i++) {
+			if (lists.get(i).getMember().getId().equals(principalDetails.getMember().getId())) {
+				String categoryName = lists.get(i).getType();
+				Long categorysId = lists.get(i).getId();
+				categorys.add(categoryName); // 리스트에 카테고리 이름 저장
+				categorysIds.add(categorysId); // 리스트에 카테고리 이름 저장
+			}
+		}
+		model.addAttribute("categorys1", categorys.get(0));
+		model.addAttribute("categorys2", categorys.get(1));
+		model.addAttribute("categorys3", categorys.get(2));
+		model.addAttribute("categorys4", categorys.get(3));
+		model.addAttribute("categorys5", categorys.get(4));
+
+		model.addAttribute("categorysID1", categorysIds.get(0));
+		model.addAttribute("categorysID2", categorysIds.get(1));
+		model.addAttribute("categorysID3", categorysIds.get(2));
+		model.addAttribute("categorysID4", categorysIds.get(3));
+		model.addAttribute("categorysID5", categorysIds.get(4));
+
+		CategoryContent content = categoryContentService.fogDetail(id);
+
+		model.addAttribute("content", content);
+
+		return "/mypage/mypagefogUpdate";
 	}
 
 	// 마이페이지 - 작성하기
 	@PostMapping("/write")
-	public String mypageWritePost(@AuthenticationPrincipal PrincipalDetails principalDetails, CategoryWriteDto categoryWriteDto, Model model,
+	public String mypageWritePost(@AuthenticationPrincipal PrincipalDetails principalDetails,
+			CategoryWriteDto categoryWriteDto, Model model,
 			@RequestParam(value = "radio", required = false) String radio) {
 		categoryWriteDto.setCategoryYn(radio);
 		String category_id = categoryWriteDto.getCategory();
-
+//		System.out.println(">>>>>>>>>>>>>>> id" + category_id);
 		CategoryContent content = CategoryContent.createContent(categoryWriteDto);
 		categoryContentService.saveContent(principalDetails, content, category_id);
 

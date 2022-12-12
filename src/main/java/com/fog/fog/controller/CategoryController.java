@@ -47,17 +47,32 @@ public class CategoryController {
 
 	// 포그 메인페이지
 	@GetMapping("/fog/{fogid}")
-	public String fogMain(@PathVariable("fogid") String fogid,Model model, @AuthenticationPrincipal PrincipalDetails principalDetails, HitCount hitcount) {
+	public String fogMain(@PathVariable("fogid") String fogid, Model model, @AuthenticationPrincipal PrincipalDetails principalDetails, HitCount hitcount) {
 		model.addAttribute("fogid", fogid);
 		System.out.println(">>>>>>>>>>>> fogId : " + fogid);
 		
-		Long id = principalDetails.getMember().getId();
+		// 현재 로그인한 정보
+		Long memid = principalDetails.getMember().getId();
+		Member memMember = memberRepository.findMemberById(memid);
+		model.addAttribute("memMember", memMember);
+		
+		// 포그 계정에 대한 정보
+		List<Member> list = memberRepository.findAll();
+		Long id = (long)0; // 포그의 공개여부
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getFogid().equals(fogid)) {
+				id = list.get(i).getId();
+			}
+		}
+		
 		Member member = memberRepository.findMemberById(id);
 		model.addAttribute("member", member);
 		
-		// 포그 이름
-		String name = principalDetails.getMember().getName();
-		model.addAttribute("name", name);
+		
+		System.out.println(">>>>>>>>>>>> 현재로그인한 fog ID : " + memMember.getFogid());
+		System.out.println(">>>>>>>>>>>> 계정 fog ID : " + fogid);
+		
+		System.out.println(">>>>>>>>>>>> 공개여부 : " + member.getAllPublicYn()); 
 		
 		// 조회수 증가
 		countService.hitCountSave(fogid, "날짜", hitcount);

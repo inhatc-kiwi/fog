@@ -161,11 +161,10 @@ public class MypageController {
 	// 마이페이지 - 카테고리 수정
 	@PostMapping("/category/update")
 	public String mypageCategoryPost(CategoryUpdateDto categoryUpdateDto, Model model) {
-		System.out.println("-=============== 카테고리 관리 POST : " + categoryUpdateDto);
-		System.out.println("-=============== 카테고리 Id : " + categoryUpdateDto.getId());
-		System.out.println("-=============== 카테고리 Type : " + categoryUpdateDto.getType());
+//		System.out.println("-=============== 카테고리 관리 POST : " + categoryUpdateDto);
+//		System.out.println("-=============== 카테고리 Id : " + categoryUpdateDto.getId());
+//		System.out.println("-=============== 카테고리 Type : " + categoryUpdateDto.getType());
 
-//		categoryContentService.updateContent(categoryUpdateDto);
 		Long id = categoryUpdateDto.getId();
 		String type = categoryUpdateDto.getType();
 		categoryContentService.updateCtegory(id, type);
@@ -208,10 +207,10 @@ public class MypageController {
 	public String image_insert(@AuthenticationPrincipal PrincipalDetails principalDetails,MemberUpdateDto memberUpdateDto, HttpServletRequest request, Model model
 			,@RequestParam(value = "radio", required = false) String radio) throws Exception {
 		
-		System.out.println("===============>name : " + memberUpdateDto.getName());
-		System.out.println("===============>getAllPublicYn : " + memberUpdateDto.getAllPublicYn());
-		System.out.println("===============>Area : " + memberUpdateDto.getArea());
-		System.out.println("===============>Filename : " + memberUpdateDto.getFilename());
+//		System.out.println("===============>name : " + memberUpdateDto.getName());
+//		System.out.println("===============>getAllPublicYn : " + memberUpdateDto.getAllPublicYn());
+//		System.out.println("===============>Area : " + memberUpdateDto.getArea());
+//		System.out.println("===============>Filename : " + memberUpdateDto.getFilename());
 		
 		
 		memberUpdateDto.setAllPublicYn(radio);
@@ -269,11 +268,13 @@ public class MypageController {
 		// 카테고리 출력
 		List<Category> lists = categoryRepository.findAll();
 		List<String> categorys = new ArrayList<>(); // 로그인한 사용자의 카테고리 이름을 저장할 리스트 선언
-
+		List<Long> categorysIds = new ArrayList<>(); // 로그인한 사용자의 카테고리 ID 저장 리스트
 		for (int i = 0; i < lists.size(); i++) {
 			if (lists.get(i).getMember().getId().equals(principalDetails.getMember().getId())) {
 				String categoryName = lists.get(i).getType();
+				Long categorysId = lists.get(i).getId();
 				categorys.add(categoryName); // 리스트에 카테고리 이름 저장
+				categorysIds.add(categorysId); // 리스트에 카테고리 이름 저장
 			}
 		}
 		model.addAttribute("categorys1", categorys.get(0));
@@ -281,6 +282,18 @@ public class MypageController {
 		model.addAttribute("categorys3", categorys.get(2));
 		model.addAttribute("categorys4", categorys.get(3));
 		model.addAttribute("categorys5", categorys.get(4));
+		
+		model.addAttribute("categorysID1", categorysIds.get(0));
+		model.addAttribute("categorysID2", categorysIds.get(1));
+		model.addAttribute("categorysID3", categorysIds.get(2));
+		model.addAttribute("categorysID4", categorysIds.get(3));
+		model.addAttribute("categorysID5", categorysIds.get(4));
+		
+		System.out.println(">>>>>>>>>> categorysID1 : " + categorysIds.get(0));
+		System.out.println(">>>>>>>>>> categorysID2 : " + categorysIds.get(1));
+		System.out.println(">>>>>>>>>> categorysID3 : " + categorysIds.get(2));
+		System.out.println(">>>>>>>>>> categorysID4 : " + categorysIds.get(3));
+		System.out.println(">>>>>>>>>> categorysID5 : " + categorysIds.get(4));
 		return "/mypage/mypageWrite";
 	}
 
@@ -290,7 +303,7 @@ public class MypageController {
 			@RequestParam(value = "radio", required = false) String radio) {
 		categoryWriteDto.setCategoryYn(radio);
 		String category_id = categoryWriteDto.getCategory();
-
+		System.out.println(">>>>>>>>>>>>>>> id" + category_id);
 		CategoryContent content = CategoryContent.createContent(categoryWriteDto);
 		categoryContentService.saveContent(principalDetails, content, category_id);
 

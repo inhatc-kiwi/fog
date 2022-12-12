@@ -88,6 +88,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 					.role(Role.ADMIN)
 					.name(name)
 					.image(image)
+					.allPublicYn("Y")
 					.build();
 			memberRepository.save(memberEntity);	
 			categoryContentService.createCategory(Category.createCategory(), memberEntity);		// 회원가입시 카테고리 생성

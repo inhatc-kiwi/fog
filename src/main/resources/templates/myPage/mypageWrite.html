@@ -137,14 +137,15 @@ li a:hover { /* 마우스 갖다 대면 */
 		<div
 			style="border: 1px solid #094B80; background-color: white; float: center; height: 70px; width: 340px; margin-right: 15px; margin-left: 30px; text-align: center; margin-bottom: 5px">
 
-			<h5
+			<h5 th:text="${member.name}"
 				style="float: left; margin-left: 20px; margin-bottom: 0px; margin-top: 10px; color: black;">스누피</h5>
-			<br> <a th:href="'http://localhost/fog/' + ${fogId}"
-				th:text="'http://localhost/fog/' + ${fogId}"
+			<br> <a th:href="'http://localhost/fog/' + ${member.fogid}"
+				th:text="'http://localhost/fog/' + ${member.fogid}"
 				style="text-decoration: none; float: left; font-size: 17px; margin-top: 11px; margin-left: -60px; color: black">http://localhost/fog/snoppy</a>
 			<!-- th:href="@{http://localhost/fog/{id}(id = ${member.fogid})}" -->
 		</div>
-		<Br> <Br>
+		<Br>
+		<Br>
 
 		<ul>
 			<li><a class="home" href="../mypage/write">작성하기</a></li>
@@ -213,12 +214,10 @@ li a:hover { /* 마우스 갖다 대면 */
 					</div>
 					<!-- 공개여부 -->
 					<div style="width: 50%; margin-top: 10px; text-align: left;">
-						<input class="form-check-input" type="radio" name="radio"
-							id="flexRadioDefault1" value="Y" style="margin-left: 40px;"
-							checked> <label class="form-check-label"
-							for="flexRadioDefault1" style="margin-left: 65px;"> 공개 </label> <input
-							class="form-check-input" type="radio" name="radio"
-							id="flexRadioDefault2" value="N" style="margin-left: 20px;">
+						<input class="form-check-input" type="radio" name="radio" id="flexRadioDefault1" value="Y" style="margin-left: 40px;" checked> 
+							<label class="form-check-label"
+							for="flexRadioDefault1" style="margin-left: 65px;"> 공개 </label> 
+							<input class="form-check-input" type="radio" name="radio" id="flexRadioDefault2" value="N" style="margin-left: 20px;">
 						<label class="form-check-label" for="flexRadioDefault2"
 							style="margin-left: 45px;">비공개</label>
 					</div>

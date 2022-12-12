@@ -13,10 +13,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	// properties에 설정한 uploadPath값을 읽어온다
 	@Value("${contentuploadPath}")
 	String contentuploadPath;
-
+	
+	@Value("${profileuploadPath}")
+	String profileuploadPath;
+	
+	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/mypage/image/upload/**").addResourceLocations(contentuploadPath);
+		registry.addResourceHandler("/mypage/setting/**").addResourceLocations(profileuploadPath);
 	}
 
 }

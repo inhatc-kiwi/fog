@@ -1,9 +1,15 @@
 package com.fog.mypage.controller;
 
 import java.io.File;
+
 import java.util.ArrayList;
+
+import java.io.IOException;
+
 import java.util.List;
 import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,10 +28,14 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fog.config.auth.PrincipalDetails;
 import com.fog.hitCount.entity.HitCount;
 import com.fog.hitCount.service.HitCountService;
+import com.fog.member.constant.Area;
 import com.fog.member.entity.Member;
+import com.fog.member.repository.MemberRepository;
+import com.fog.member.service.MemberService;
 import com.fog.mypage.constant.PrivateYn;
 import com.fog.mypage.dto.CategoryUpdateDto;
 import com.fog.mypage.dto.CategoryWriteDto;
+import com.fog.mypage.dto.MemberUpdateDto;
 import com.fog.mypage.entity.Category;
 import com.fog.mypage.entity.CategoryContent;
 import com.fog.mypage.repository.CategoryRepository;
@@ -44,12 +54,21 @@ public class MypageController {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
+	
+	@Autowired
+	private MemberRepository memberRepository;
 
 	@Autowired
 	private HitCountService countService;
+	
+	@Autowired
+	private MemberService memberService;
 
 	@Value("${contentImgLocation}")
 	private String contentImgLocation;
+	
+	@Value("${profileImgLocation}")
+	private String profileImgLocation;
 
 	// 마이페이지 - 메인 (방문자 통계)
 	@GetMapping("/main")
@@ -157,11 +176,16 @@ public class MypageController {
 	// 마이페이지 - 포그 관리
 	@GetMapping("/fogEdit")
 	public String mypageFogEdit(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+
 		String fogId = principalDetails.getMember().getFogid();
 		model.addAttribute("fogId", fogId);
 
 		String name = principalDetails.getMember().getName();
 		model.addAttribute("name", name);
+
+		Long id = principalDetails.getMember().getId();
+		Member member = memberRepository.findMemberById(id);
+		model.addAttribute("member", member);
 
 		return "/mypage/mypageFogEdit";
 	}
@@ -169,24 +193,76 @@ public class MypageController {
 	// 마이페이지 - 설정
 	@GetMapping("/setting")
 	public String mypageSetting(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
-		String fogId = principalDetails.getMember().getFogid();
-		model.addAttribute("fogId", fogId);
 
-		String imgUrl = principalDetails.getMember().getImage();
-		model.addAttribute("image", imgUrl);
-
-		String name = principalDetails.getMember().getName();
-		model.addAttribute("name", name);
-
+		Long id = principalDetails.getMember().getId();
+		Member member = memberRepository.findMemberById(id);
+		model.addAttribute("member", member);
+		model.addAttribute("local", Area.values());
+		model.addAttribute("memberUpdateDto", new MemberUpdateDto());
+		
 		return "/mypage/mypageSetting";
 	}
+	
+	// 마이페이지 - 설정
+	@PostMapping("/setting/insert_image")
+	public String image_insert(@AuthenticationPrincipal PrincipalDetails principalDetails,MemberUpdateDto memberUpdateDto, HttpServletRequest request, Model model
+			,@RequestParam(value = "radio", required = false) String radio) throws Exception {
+		
+		System.out.println("===============>name : " + memberUpdateDto.getName());
+		System.out.println("===============>getAllPublicYn : " + memberUpdateDto.getAllPublicYn());
+		System.out.println("===============>Area : " + memberUpdateDto.getArea());
+		System.out.println("===============>Filename : " + memberUpdateDto.getFilename());
+		
+		
+		memberUpdateDto.setAllPublicYn(radio);
+		Long id = principalDetails.getMember().getId();
+		Member member = memberRepository.findMemberById(id);
+		
+		// 파일의 오리지널 네임
+		//String originalFileName = mFile.getOriginalFilename();
+		//String ext = originalFileName.substring(originalFileName.indexOf("."));
+		String originalFileName = memberUpdateDto.getFilename().getOriginalFilename();
+		
+		
+		// 이미지 수정 안 하는 경우
+		if(originalFileName.equals("")) {
+			memberService.updateProfile(member, memberUpdateDto);
+		} 
+		// 이미지 수정 하는 경우
+		else {
+			String ext = originalFileName.substring(originalFileName.indexOf("."));
+			String newFileName = UUID.randomUUID() + ext;
+			String uploadPath = "/mypage/setting/" + newFileName;
+
+			try {
+				if (member.getImage() != null) { // 이미 프로필 사진이 있을경우
+					File file = new File(profileImgLocation + member.getImage()); // 경로 + 유저 프로필사진 이름을 가져와서
+					file.delete(); // 원래파일 삭제
+				}
+				//mFile.transferTo(new File(profileImgLocation + newFileName)); // 경로에 업로드
+				memberUpdateDto.getFilename().transferTo(new File(profileImgLocation + newFileName)); // 경로에 업로드
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			memberService.updateImage(member, uploadPath,memberUpdateDto);
+		}
+		
+		
+		return "redirect:/mypage/setting";
+	}
+	
+	
 
 	// 마이페이지 - 작성하기
 	@GetMapping("/write")
 	public String mypageWrite(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
-		String fogId = principalDetails.getMember().getFogid();
-		model.addAttribute("fogId", fogId);
-
+		//String fogId = principalDetails.getMember().getFogid();
+		//model.addAttribute("fogId", fogId);
+		Long id = principalDetails.getMember().getId();
+		Member member = memberRepository.findMemberById(id);
+		model.addAttribute("member", member);
+		
+		
 		model.addAttribute("categoryWriteDto", new CategoryWriteDto());
 		model.addAttribute("private", PrivateYn.values());
 
@@ -210,8 +286,7 @@ public class MypageController {
 
 	// 마이페이지 - 작성하기
 	@PostMapping("/write")
-	public String mypageWritePost(@AuthenticationPrincipal PrincipalDetails principalDetails,
-			CategoryWriteDto categoryWriteDto, Model model,
+	public String mypageWritePost(@AuthenticationPrincipal PrincipalDetails principalDetails, CategoryWriteDto categoryWriteDto, Model model,
 			@RequestParam(value = "radio", required = false) String radio) {
 		categoryWriteDto.setCategoryYn(radio);
 		String category_id = categoryWriteDto.getCategory();

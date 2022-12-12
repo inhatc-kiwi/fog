@@ -86,7 +86,7 @@ body {
 			<span class="d-block d-lg-none">Start Bootstrap</span> <span
 			class="d-none d-lg-block"> <img
 				class="img-fluid img-profile rounded-circle mx-auto mb-2"
-				src="/img/포그.png" alt="" style="width: 300px; height: 300px;">
+				th:src="${member.image} != null ? ${member.image} : @{/img/포그.png}"  alt="" style="width: 300px; height: 300px;">
 		</span>
 		</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"

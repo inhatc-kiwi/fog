@@ -88,6 +88,10 @@ public class MypageController {
 
 		String name = principalDetails.getMember().getName();
 		model.addAttribute("name", name);
+		
+		Long id = principalDetails.getMember().getId();
+		Member member = memberRepository.findMemberById(id);
+		model.addAttribute("member", member);
 
 		int counts = 0;
 		for (int i = 0; i < lists.size(); i++) {
@@ -114,6 +118,10 @@ public class MypageController {
 		// 사용자 이름
 		String name = principalDetails.getMember().getName();
 		model.addAttribute("name", name);
+		
+		Long id = principalDetails.getMember().getId();
+		Member member = memberRepository.findMemberById(id);
+		model.addAttribute("member", member);
 
 		List<Category> lists = categoryRepository.findAll();
 		model.addAttribute("lists", lists);

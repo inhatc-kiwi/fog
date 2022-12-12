@@ -2,6 +2,8 @@ package com.fog.mypage.service;
 
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -49,15 +51,21 @@ public class CategoryContentService {
 	}
 	
 	// 카테고리 수정
-	public void updateContent(CategoryUpdateDto dto) {
-		 String[] id = dto.getId().split(",");
-		 String[] type = dto.getType().split(",");
-			
-		 for (int i = 0; i < id.length; i++) {
-			 long categoryId = Long.parseLong(id[i]);
-			 Category category = categoryRepository.findCategoryById(categoryId);
-			 category.setType(type[i]);
-		}
+//	public void updateContent(CategoryUpdateDto dto) {
+//		 String[] id = dto.getId().split(",");
+//		 String[] type = dto.getType().split(",");
+//			
+//		 for (int i = 0; i < id.length; i++) {
+//			 long categoryId = Long.parseLong(id[i]);
+//			 Category category = categoryRepository.findCategoryById(categoryId);
+//			 category.setType(type[i]);
+//		}
+//	}
+	
+	public void updateCtegory(Long id, String type) {
+		Category c = categoryRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+		c.setType(type);
+		categoryRepository.save(c);
 	}
 	
 	// 기본 카테고리 생성

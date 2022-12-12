@@ -88,10 +88,10 @@ li a:hover { /* 마우스 갖다 대면 */
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-		crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+	crossorigin="anonymous"></script>
 
 <!-- header -->
 <div th:fragment="header">
@@ -105,15 +105,14 @@ li a:hover { /* 마우스 갖다 대면 */
 		<div
 			style="border: 1px solid #094B80; background-color: white; float: center; height: 70px; width: 340px; margin-right: 15px; margin-left: 30px; text-align: center; margin-bottom: 5px">
 
-			<h5
+			<h5 th:text="*{name}"
 				style="float: left; margin-left: 20px; margin-bottom: 0px; margin-top: 10px; color: black;">스누피</h5>
 			<br> <a th:href="'http://localhost/fog/' + ${fogId}"
 				th:text="'http://localhost/fog/' + ${fogId}"
 				style="text-decoration: none; float: left; font-size: 17px; margin-top: 11px; margin-left: -60px; color: black">http://localhost/fog/snoppy</a>
 			<!-- th:href="@{http://localhost/fog/{id}(id = ${member.fogid})}" -->
 		</div>
-		<Br>
-		<Br>
+		<Br> <Br>
 
 		<ul>
 			<li><a class="home" href="../mypage/write">작성하기</a></li>
@@ -129,41 +128,43 @@ li a:hover { /* 마우스 갖다 대면 */
 <div class="content" style="background-color: white;">
 	<div class="container">
 		<div class="cd1">
-			<Br> <Br> <Br>
+			<Br> <Br> <Br><br>
 			<h2 style="font-weight: bold; margin-left: 200px;">카테고리 관리</h2>
 			<div
 				style="border: 1px solid #094B80; background-color: white; float: center; height: 446px; width: 800px; margin-right: 15px; margin-left: 200px; margin-top: 30px; text-align: center;">
 
 				<!-- 프로필 -->
+
 				<div th:each="vo : ${lists}">
+					<div th:if="${memId == vo.member.id}">
+						<div style="float: left; width: 70%; margin-top: 30px;">
+							<form class="signup-form" th:object="${categoryUpdateDto}" action="/mypage/category/update" role="form" method="post" name="join_form">
+								<input type="hidden" id="id" name="id" th:value="${vo.id}">
+								<input class="categoryTitle" type="text" th:name="type" 
+									style="width: 500px; font-size: 23px; letter-spacing: 4px; text-align: left; margin-left: 50px; float: left; border: none; background-color: transparent; color: black;"
+									th:value="${vo.type}">
+						</div>
 
-					<div style="float: left; width: 70%; margin-top: 30px;">
+						<div style="float: left; width: 30%; margin-top: 25px;">
+							<button type="submit" class="btn btn-fog" style="width: 120px;"
+								onclick="alert('수정되었습니다');">수&nbsp;정</button>
 
-						<input class="categoryTitle" type="text" name="category_1"
-							disabled
-							style="width: 700px; font-size: 23px; letter-spacing: 4px; text-align: left; margin-left: 50px; float: left; border: none; background-color: transparent; color: black;" th:value="${vo.type}">
+						</div>
+						<input type="hidden" name="_csrf" id="_csrf"
+							th:value="${_csrf.token}">
+						</form>
+						<br> <br> <br>
+						<hr style="color: #094B80; margin-bottom: 0px">
+
 					</div>
-
-					<!--  
-				<div style="float: left; width: 30%; margin-top: 25px;">
-					<button type="button" class="btn btn-fog" style="width: 120px; "
-						onclick="check();">수&nbsp;정</button>
 				</div>
-				-->
-
-					<br>
-					<br>
-					<br>
-					<hr style="color: #094B80; margin-bottom: 0px">
-
-				</div>
-
 			</div>
-			<br>
-			<br>
-			<button type="button" class="btn btn-fog" style="width: 120px; float: right; margin-right: 80px;" onclick="location.href='/mypage/category/update';">수&nbsp;정</button>
-
-			<br> <br>
+			<br> <br> 
+			<!-- 
+			<a href="/mypage/category/update">
+				<button type="button" class="btn btn-fog"
+					style="width: 120px; float: right; margin-right: 80px;">수&nbsp;정</button>
+			</a>--> <br>
 		</div>
 	</div>
 </div>

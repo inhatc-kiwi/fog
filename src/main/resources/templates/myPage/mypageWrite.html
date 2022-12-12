@@ -173,12 +173,12 @@ li a:hover { /* 마우스 갖다 대면 */
 					<!-- 카테고리 -->
 					<div style="float: left; width: 25%; margin-top: 20px;">
 						<select class="form-select border-1" id="selectbox" th:field="*{category}" style="height: 50px; width: 180px; margin-left: 30px;">
-							<option value="default" selected>카테고리</option>
-							<option th:value="1">프로필</option>
-							<option th:value="2">프로젝트</option>
-							<option th:value="3">대외 활동</option>
-							<option th:value="4">수상자격 / 자격증</option>
-							<option th:value="5">보유 기술</option>
+							<!-- <option value="default" selected>카테고리</option> -->
+							<option th:text="${categorys1}" th:value="1" selected>프로필</option>
+							<option th:text="${categorys2}" th:value="2">프로젝트</option>
+							<option th:text="${categorys3}" th:value="3">대외 활동</option>
+							<option th:text="${categorys4}" th:value="4">수상자격 / 자격증</option>
+							<option th:text="${categorys5}" th:value="5">보유 기술</option>
 						</select>
 					</div>
 					<div

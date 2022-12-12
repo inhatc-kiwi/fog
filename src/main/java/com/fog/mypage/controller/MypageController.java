@@ -7,12 +7,16 @@ import java.util.ArrayList;
 import java.io.IOException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -88,7 +92,7 @@ public class MypageController {
 
 		String name = principalDetails.getMember().getName();
 		model.addAttribute("name", name);
-		
+
 		Long id = principalDetails.getMember().getId();
 		Member member = memberRepository.findMemberById(id);
 		model.addAttribute("member", member);
@@ -118,7 +122,7 @@ public class MypageController {
 		// 사용자 이름
 		String name = principalDetails.getMember().getName();
 		model.addAttribute("name", name);
-		
+
 		Long id = principalDetails.getMember().getId();
 		Member member = memberRepository.findMemberById(id);
 		model.addAttribute("member", member);

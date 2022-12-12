@@ -2,6 +2,7 @@ package com.fog.member.service;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -20,7 +21,7 @@ import com.fog.member.dto.MemberFormDto;
 import com.fog.member.dto.OauthAddInfoDto;
 import com.fog.member.entity.Member;
 import com.fog.member.repository.MemberRepository;
-
+import com.fog.mypage.dto.MemberUpdateDto;
 
 @Service
 //로직을 처리하다가 에러가 발생하면 변경된 데이터를 조직 이전으로 콜백 시켜주기 위해
@@ -30,65 +31,96 @@ import com.fog.member.repository.MemberRepository;
 
 //UserDetailsService는 데이터베이스에서 회원정보를 가져오는 역할 (즉, 시큐리티에서 로그인 담당한다고 생각하면 됨)
 public class MemberService implements UserDetailsService {
-    //빈에 생성자가 1개이고 생성자의 파라미터 타입이 빈으로 등록이 가능하면 @Autowired 없이 의존성 주입 가능
-    @Autowired
-    private MemberRepository memberRepository;
+	// 빈에 생성자가 1개이고 생성자의 파라미터 타입이 빈으로 등록이 가능하면 @Autowired 없이 의존성 주입 가능
+	@Autowired
+	private MemberRepository memberRepository;
 
-    public Member saveMember(Member member){
-        validateDuplicateMember(member);
-        return memberRepository.save(member);
-    }
-    
-    /* 조회수 증가 */
+	public Member saveMember(Member member) {
+		validateDuplicateMember(member);
+		return memberRepository.save(member);
+	}
+
+	/* 조회수 증가 */
 //    @Transactional
 //    public int updateView(Long id) {
 //        return memberRepository.updateView(id);
 //    }
-    
-    // 회원 중복체크
-    private void validateDuplicateMember(Member member){
-        Member findMember = memberRepository.findByEmail(member.getEmail());
-        if(findMember != null){
-            throw new IllegalStateException("이미 가입된 회원입니다.");
-        }
-    }
-    
-    // OAuth2 추가정보 등록
-    public Member addInfo(@AuthenticationPrincipal PrincipalDetails principalDetails,OauthAddInfoDto addInfoDto) {
-    	String email = principalDetails.getMember().getEmail();
-    	Member member = memberRepository.findByEmail(email);
-    	member.addInfoOAuth2(addInfoDto);
-    	return member;
-    }
-    
-    // mypage 정보 출력
-    public Member mypageInfo(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-    	String email = principalDetails.getMember().getEmail();
-    	Member member = memberRepository.findByEmail(email);
-    	return member;
-    }
-    
-    // 로그인한 회원 ID 출력
-    public Long getIdFromAuth(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-    	Long id = principalDetails.getMember().getId();
-    	return id;
-    }
-    
-    
-    //public Member saveOAuth2()
 
-    // UserDetailsService 인터페이스의 오버라이딩한다. 로그인할 유저의 email을 파라미터로 전달함( 이름은 동명이인이 있을수 있기 때문에)
-    // 시큐리티 session(내부 Authentication(내부 UserDetails))
-    // 메서드 종료시 @AuthenticationPrincipal 어노테이션이 만들어진다.
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-    	Member member = memberRepository.findByEmail(email);
-        	if(member == null) {
-        		System.out.println("DB에 유저가 없어용 ㅠ");
-        		throw new UsernameNotFoundException(email);
-    		}else {
-    			return new PrincipalDetails(member);
-    		}
-    }
+	// 회원 중복체크
+	private void validateDuplicateMember(Member member) {
+		Member findMember = memberRepository.findByEmail(member.getEmail());
+		if (findMember != null) {
+			throw new IllegalStateException("이미 가입된 회원입니다.");
+		}
+	}
+
+	// OAuth2 추가정보 등록
+	public Member addInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, OauthAddInfoDto addInfoDto) {
+		String email = principalDetails.getMember().getEmail();
+		Member member = memberRepository.findByEmail(email);
+		member.addInfoOAuth2(addInfoDto);
+		return member;
+	}
+
+	// mypage 정보 출력
+	public Member mypageInfo(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+		String email = principalDetails.getMember().getEmail();
+		Member member = memberRepository.findByEmail(email);
+		return member;
+	}
+
+	// 로그인한 회원 ID 출력
+	public Long getIdFromAuth(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+		Long id = principalDetails.getMember().getId();
+		return id;
+	}
+
+	// 프로필 수정(이미지 변경할 경우)
+	public Member updateImage(Member member, String fileName, MemberUpdateDto memberUpdateDto) {
+//		member.setImage(fileName);
+//		member.setBnumber(memberUpdateDto.getBnumber());
+//		member.setBname(memberUpdateDto.getBname());
+//		member.setAddress(memberUpdateDto.getAddress());
+//		member.setPnum(memberUpdateDto.getPnum());
+		
+		// marketRepository.save(market);
+		
+		member.setImage(fileName);
+		member.setName(memberUpdateDto.getName());
+		member.setArea(memberUpdateDto.getArea());
+		member.setAllPublicYn(memberUpdateDto.getAllPublicYn());
+		
+		return memberRepository.save(member);
+	}
+
+	// 프로필 수정(이미지 변경 안할 경우)
+	public Member updateProfile(Member member, MemberUpdateDto memberUpdateDto) {
+//		member.setBnumber(memberUpdateDto.getBnumber());
+//		member.setBname(memberUpdateDto.getBname());
+//		member.setAddress(memberUpdateDto.getAddress());
+//		member.setPnum(memberUpdateDto.getPnum());
+		
+		member.setName(memberUpdateDto.getName());
+		member.setArea(memberUpdateDto.getArea());
+		member.setAllPublicYn(memberUpdateDto.getAllPublicYn());
+		return memberRepository.save(member);
+	}
+
+	// public Member saveOAuth2()
+
+	// UserDetailsService 인터페이스의 오버라이딩한다. 로그인할 유저의 email을 파라미터로 전달함( 이름은 동명이인이 있을수
+	// 있기 때문에)
+	// 시큐리티 session(내부 Authentication(내부 UserDetails))
+	// 메서드 종료시 @AuthenticationPrincipal 어노테이션이 만들어진다.
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		Member member = memberRepository.findByEmail(email);
+		if (member == null) {
+			System.out.println("DB에 유저가 없어용 ㅠ");
+			throw new UsernameNotFoundException(email);
+		} else {
+			return new PrincipalDetails(member);
+		}
+	}
 
 }

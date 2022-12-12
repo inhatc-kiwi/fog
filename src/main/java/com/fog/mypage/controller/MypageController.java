@@ -78,11 +78,15 @@ public class MypageController {
 	// 마이페이지 - 카테고리 관리
 	@GetMapping("/category")
 	public String mypageCategory(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
-		String fogId = principalDetails.getMember().getFogid();
+		String fogId = principalDetails.getMember().getFogid();		
 		model.addAttribute("fogId", fogId);
-
+		
+		Long memId = principalDetails.getMember().getId();
+		model.addAttribute("memId", memId);
+		
 		List<Category> lists = categoryRepository.findAll();
 		model.addAttribute("lists", lists);
+		
 		return "/mypage/mypageCategory";
 	}
 

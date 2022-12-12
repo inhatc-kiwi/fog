@@ -38,6 +38,7 @@ import com.fog.mypage.dto.CategoryWriteDto;
 import com.fog.mypage.dto.MemberUpdateDto;
 import com.fog.mypage.entity.Category;
 import com.fog.mypage.entity.CategoryContent;
+import com.fog.mypage.repository.CategoryContentRepository;
 import com.fog.mypage.repository.CategoryRepository;
 import com.fog.mypage.service.CategoryContentService;
 
@@ -54,6 +55,9 @@ public class MypageController {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
+	
+	@Autowired
+	private CategoryContentRepository categoryContentRepository;
 	
 	@Autowired
 	private MemberRepository memberRepository;
@@ -185,6 +189,10 @@ public class MypageController {
 		Long id = principalDetails.getMember().getId();
 		Member member = memberRepository.findMemberById(id);
 		model.addAttribute("member", member);
+		
+		List<CategoryContent> lists = categoryContentRepository.findAll();
+		model.addAttribute("lists", lists);
+		System.out.println(">>>>>>>>>>> lists" + lists);
 
 		return "/mypage/mypageFogEdit";
 	}
@@ -289,11 +297,6 @@ public class MypageController {
 		model.addAttribute("categorysID4", categorysIds.get(3));
 		model.addAttribute("categorysID5", categorysIds.get(4));
 		
-		System.out.println(">>>>>>>>>> categorysID1 : " + categorysIds.get(0));
-		System.out.println(">>>>>>>>>> categorysID2 : " + categorysIds.get(1));
-		System.out.println(">>>>>>>>>> categorysID3 : " + categorysIds.get(2));
-		System.out.println(">>>>>>>>>> categorysID4 : " + categorysIds.get(3));
-		System.out.println(">>>>>>>>>> categorysID5 : " + categorysIds.get(4));
 		return "/mypage/mypageWrite";
 	}
 
@@ -303,7 +306,7 @@ public class MypageController {
 			@RequestParam(value = "radio", required = false) String radio) {
 		categoryWriteDto.setCategoryYn(radio);
 		String category_id = categoryWriteDto.getCategory();
-		System.out.println(">>>>>>>>>>>>>>> id" + category_id);
+//		System.out.println(">>>>>>>>>>>>>>> id" + category_id);
 		CategoryContent content = CategoryContent.createContent(categoryWriteDto);
 		categoryContentService.saveContent(principalDetails, content, category_id);
 

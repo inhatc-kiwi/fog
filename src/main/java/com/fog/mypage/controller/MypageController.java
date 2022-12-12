@@ -62,7 +62,7 @@ public class MypageController {
 
 		String memFogId = principalDetails.getMember().getFogid();
 		model.addAttribute("memFogId", memFogId);
-		
+
 		String name = principalDetails.getMember().getName();
 		model.addAttribute("name", name);
 
@@ -81,20 +81,20 @@ public class MypageController {
 	@GetMapping("/category")
 	public String mypageCategory(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
 		// 포그 이름
-		String fogId = principalDetails.getMember().getFogid();		
+		String fogId = principalDetails.getMember().getFogid();
 		model.addAttribute("fogId", fogId);
-		
+
 		// 로그인한 사용자 ID
 		Long memId = principalDetails.getMember().getId();
 		model.addAttribute("memId", memId);
-		
+
 		// 사용자 이름
 		String name = principalDetails.getMember().getName();
 		model.addAttribute("name", name);
-		
+
 		List<Category> lists = categoryRepository.findAll();
 		model.addAttribute("lists", lists);
-		
+
 		return "/mypage/mypageCategory";
 	}
 
@@ -104,37 +104,37 @@ public class MypageController {
 		// 포그 이름
 		String fogId = principalDetails.getMember().getFogid();
 		model.addAttribute("fogId", fogId);
-		
+
 		// 로그인한 사용자 ID
 		Long memId = principalDetails.getMember().getId();
 		model.addAttribute("memId", memId);
-				
-		List<Category> lists = categoryRepository.findAll();		
+
+		List<Category> lists = categoryRepository.findAll();
 		List<String> categorys = new ArrayList<>(); // 로그인한 사용자의 카테고리 이름을 저장할 리스트 선언
-		
+
 		List<Long> categorysId = new ArrayList<>(); // 로그인한 사용자의 카테고리 이름을 저장할 리스트 선언
-		
+
 		for (int i = 0; i < lists.size(); i++) {
-			if(lists.get(i).getMember().getId().equals(memId)) {
+			if (lists.get(i).getMember().getId().equals(memId)) {
 				String categoryName = lists.get(i).getType();
-				
+
 				categorys.add(categoryName); // 리스트에 카테고리 이름 저장
-				
+
 				Long categoryId = lists.get(i).getId();
 				categorysId.add(categoryId); // 리스트에 카테고리 이름 저장
 			}
 		}
 		model.addAttribute("categorys", categorys);
 		model.addAttribute("categorysId", categorysId);
-		
+
 //		List<Category> lists = categoryRepository.findAll();
 //		model.addAttribute("lists", lists);
-		
+
 //		for (Long i = Long.valueOf(1); i < 6; i++) {
 //			Category category = categoryRepository.findCategoryById(i);
 //			model.addAttribute("category"+i, category);
 //		}
-		
+
 		model.addAttribute("categoryUpdateDto", new CategoryUpdateDto());
 		return "/mypage/mypageCategoryUpdate";
 	}
@@ -145,12 +145,12 @@ public class MypageController {
 		System.out.println("-=============== 카테고리 관리 POST : " + categoryUpdateDto);
 		System.out.println("-=============== 카테고리 Id : " + categoryUpdateDto.getId());
 		System.out.println("-=============== 카테고리 Type : " + categoryUpdateDto.getType());
-		
+
 //		categoryContentService.updateContent(categoryUpdateDto);
 		Long id = categoryUpdateDto.getId();
 		String type = categoryUpdateDto.getType();
 		categoryContentService.updateCtegory(id, type);
-		
+
 		return "redirect:/mypage/category";
 	}
 
@@ -159,10 +159,10 @@ public class MypageController {
 	public String mypageFogEdit(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
 		String fogId = principalDetails.getMember().getFogid();
 		model.addAttribute("fogId", fogId);
-		
+
 		String name = principalDetails.getMember().getName();
 		model.addAttribute("name", name);
-		
+
 		return "/mypage/mypageFogEdit";
 	}
 
@@ -171,13 +171,13 @@ public class MypageController {
 	public String mypageSetting(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
 		String fogId = principalDetails.getMember().getFogid();
 		model.addAttribute("fogId", fogId);
-		
+
 		String imgUrl = principalDetails.getMember().getImage();
 		model.addAttribute("image", imgUrl);
-		
+
 		String name = principalDetails.getMember().getName();
 		model.addAttribute("name", name);
-		
+
 		return "/mypage/mypageSetting";
 	}
 
@@ -189,6 +189,22 @@ public class MypageController {
 
 		model.addAttribute("categoryWriteDto", new CategoryWriteDto());
 		model.addAttribute("private", PrivateYn.values());
+
+		// 카테고리 출력
+		List<Category> lists = categoryRepository.findAll();
+		List<String> categorys = new ArrayList<>(); // 로그인한 사용자의 카테고리 이름을 저장할 리스트 선언
+
+		for (int i = 0; i < lists.size(); i++) {
+			if (lists.get(i).getMember().getId().equals(principalDetails.getMember().getId())) {
+				String categoryName = lists.get(i).getType();
+				categorys.add(categoryName); // 리스트에 카테고리 이름 저장
+			}
+		}
+		model.addAttribute("categorys1", categorys.get(0));
+		model.addAttribute("categorys2", categorys.get(1));
+		model.addAttribute("categorys3", categorys.get(2));
+		model.addAttribute("categorys4", categorys.get(3));
+		model.addAttribute("categorys5", categorys.get(4));
 		return "/mypage/mypageWrite";
 	}
 

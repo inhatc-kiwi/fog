@@ -59,6 +59,7 @@ public class CategoryController {
 		countService.hitCountSave(fogid, "날짜", hitcount);
 		System.out.println("조회수 증가");
 		
+		// 카테고리 출력
 		List<Category> lists = categoryRepository.findAll();		
 		List<String> categorys = new ArrayList<>(); // 로그인한 사용자의 카테고리 이름을 저장할 리스트 선언
 		

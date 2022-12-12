@@ -60,4 +60,12 @@ public class CategoryContentService {
 		}
 	}
 	
+	// 기본 카테고리 생성
+	public void createCategory(List<Category> categorys, Member member) {
+		for (Category category : categorys) {
+			category.setMember(member);
+			categoryRepository.save(category);
+		}
+	}
+	
 }

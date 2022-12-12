@@ -1,5 +1,6 @@
 package com.fog.fog.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,9 @@ import com.fog.member.dto.MemberFormDto;
 import com.fog.member.entity.Member;
 import com.fog.member.repository.MemberRepository;
 import com.fog.member.service.MemberService;
+import com.fog.mypage.entity.Category;
+import com.fog.mypage.repository.CategoryRepository;
+import com.fog.mypage.service.CategoryContentService;
 
 import lombok.RequiredArgsConstructor;
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +34,13 @@ public class CategoryController {
 	private MemberService memberService;
 	
 	@Autowired
+	private CategoryContentService categoryContentService;
+	
+	@Autowired
 	private MemberRepository memberRepository;
+	
+	@Autowired
+	private CategoryRepository categoryRepository;
 	
 	private final HitCountService countService;
 

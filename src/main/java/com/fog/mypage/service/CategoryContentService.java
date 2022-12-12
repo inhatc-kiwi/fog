@@ -1,6 +1,7 @@
 package com.fog.mypage.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -79,6 +80,17 @@ public class CategoryContentService {
 	// 포그 삭제
 	public void deletefog(Long id) {
 		categoryContentRepository.deleteById(id);
+	}
+
+	// 포그 수정
+	public CategoryContent fogDetail(Long id) {
+		Optional<CategoryContent> optional = categoryContentRepository.findById(id);
+		if (optional.isPresent()) {
+			CategoryContent content = optional.get();
+			return content;
+		} else {
+			throw new NullPointerException();
+		}
 	}
 	
 }

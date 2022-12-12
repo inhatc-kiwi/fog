@@ -193,6 +193,30 @@ public class MypageController {
 		List<CategoryContent> lists = categoryContentRepository.findAll();
 		model.addAttribute("lists", lists);
 
+		// 카테고리 출력
+		List<Category> list = categoryRepository.findAll();
+		List<String> categorys = new ArrayList<>(); // 로그인한 사용자의 카테고리 이름을 저장할 리스트 선언
+		List<Long> categorysIds = new ArrayList<>(); // 로그인한 사용자의 카테고리 ID 저장 리스트
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getMember().getId().equals(principalDetails.getMember().getId())) {
+				String categoryName = list.get(i).getType();
+				Long categorysId = list.get(i).getId();
+				categorys.add(categoryName); // 리스트에 카테고리 이름 저장
+				categorysIds.add(categorysId); // 리스트에 카테고리 이름 저장
+			}
+		}
+		model.addAttribute("categorys1", categorys.get(0));
+		model.addAttribute("categorys2", categorys.get(1));
+		model.addAttribute("categorys3", categorys.get(2));
+		model.addAttribute("categorys4", categorys.get(3));
+		model.addAttribute("categorys5", categorys.get(4));
+
+		model.addAttribute("categorysID1", categorysIds.get(0));
+		model.addAttribute("categorysID2", categorysIds.get(1));
+		model.addAttribute("categorysID3", categorysIds.get(2));
+		model.addAttribute("categorysID4", categorysIds.get(3));
+		model.addAttribute("categorysID5", categorysIds.get(4));
+
 		return "/mypage/mypageFogEdit";
 	}
 
@@ -300,6 +324,48 @@ public class MypageController {
 		model.addAttribute("categorysID5", categorysIds.get(4));
 
 		return "/mypage/mypageWrite";
+	}
+
+	// 마이페이지 - 포그 수정하기
+	@GetMapping(value = "/fogEdit/update/{id}")
+	public String mypageFogUpdate(@PathVariable("id") Long id, Model model,
+			@AuthenticationPrincipal PrincipalDetails principalDetails) {
+		Long memid = principalDetails.getMember().getId();
+		Member member = memberRepository.findMemberById(memid);
+		model.addAttribute("member", member);
+
+		model.addAttribute("categoryWriteDto", new CategoryWriteDto());
+		model.addAttribute("private", PrivateYn.values());
+
+		// 카테고리 출력
+		List<Category> lists = categoryRepository.findAll();
+		List<String> categorys = new ArrayList<>(); // 로그인한 사용자의 카테고리 이름을 저장할 리스트 선언
+		List<Long> categorysIds = new ArrayList<>(); // 로그인한 사용자의 카테고리 ID 저장 리스트
+		for (int i = 0; i < lists.size(); i++) {
+			if (lists.get(i).getMember().getId().equals(principalDetails.getMember().getId())) {
+				String categoryName = lists.get(i).getType();
+				Long categorysId = lists.get(i).getId();
+				categorys.add(categoryName); // 리스트에 카테고리 이름 저장
+				categorysIds.add(categorysId); // 리스트에 카테고리 이름 저장
+			}
+		}
+		model.addAttribute("categorys1", categorys.get(0));
+		model.addAttribute("categorys2", categorys.get(1));
+		model.addAttribute("categorys3", categorys.get(2));
+		model.addAttribute("categorys4", categorys.get(3));
+		model.addAttribute("categorys5", categorys.get(4));
+
+		model.addAttribute("categorysID1", categorysIds.get(0));
+		model.addAttribute("categorysID2", categorysIds.get(1));
+		model.addAttribute("categorysID3", categorysIds.get(2));
+		model.addAttribute("categorysID4", categorysIds.get(3));
+		model.addAttribute("categorysID5", categorysIds.get(4));
+
+		CategoryContent content = categoryContentService.fogDetail(id);
+
+		model.addAttribute("content", content);
+
+		return "/mypage/mypagefogUpdate";
 	}
 
 	// 마이페이지 - 작성하기

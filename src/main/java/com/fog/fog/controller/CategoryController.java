@@ -51,6 +51,10 @@ public class CategoryController {
 		model.addAttribute("fogid", fogid);
 		System.out.println(">>>>>>>>>>>> fogId : " + fogid);
 		
+		Long id = principalDetails.getMember().getId();
+		Member member = memberRepository.findMemberById(id);
+		model.addAttribute("member", member);
+		
 		// 포그 이름
 		String name = principalDetails.getMember().getName();
 		model.addAttribute("name", name);

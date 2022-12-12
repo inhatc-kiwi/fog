@@ -105,7 +105,7 @@ li a:hover { /* 마우스 갖다 대면 */
 	<div class="menuLeft">
 		<div
 			style="border: 1px solid #094B80; background-color: white; float: center; height: 320px; width: 340px; margin-right: 15px; margin-left: 30px; margin-top: 30px; text-align: center;">
-			<img src="/img/포그.png" alt="fog"
+			<img th:src="${member.image} != null ? ${member.image} : @{/img/포그.png}" alt="fog"
 				style="margin-top: 10px; width: 300px; height: 300px; object-fit: cover; border-radius: 30%; overflow: hidden;">
 
 		</div>

@@ -52,7 +52,7 @@ public class Member extends BaseEntity {
     private Area area;
     
     // 포그 주소
-    @Column(name="member_fogid")
+    @Column(unique = true, name="member_fogid")
     private String fogid;
 
     // enum 타입은 기본적으로 순서가 저장되는데 순서가 바뀌면 문제가 생기므로 STRING 옵션 설정한다.
@@ -69,8 +69,9 @@ public class Member extends BaseEntity {
     // 프로필 사진
     private String image;
     
-    // OAuth2 추가정보 여부
-    private String updateOauthYn;
+    // 공개 여부
+    @Column(name="member_allPublicYn")
+    private String allPublicYn;
     
 //    @OneToMany(mappedBy = "member")
 //    private List<Cash> cashs = new ArrayList<>();
@@ -93,7 +94,7 @@ public class Member extends BaseEntity {
     }
      
     @Builder
-	public Member(String email, String password, Role role, String provider, String providerId,String name, int cash, int level, int point,String image,String updateYn) {
+	public Member(String email, String password, Role role, String provider, String providerId,String name, int cash, int level, int point,String image,String allPublicYn) {
 		this.email = email;
 		this.password = password;
 		this.role = role;
@@ -101,6 +102,7 @@ public class Member extends BaseEntity {
 		this.providerId = providerId;
 		this.name = name;
 		this.image = image;
+		this.allPublicYn = allPublicYn;
 	}
     
 }

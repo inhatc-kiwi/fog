@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fog.config.auth.PrincipalDetails;
 import com.fog.member.entity.Member;
 import com.fog.member.repository.MemberRepository;
+import com.fog.mypage.dto.CategoryUpdateDto;
 import com.fog.mypage.entity.Category;
 import com.fog.mypage.entity.CategoryContent;
 import com.fog.mypage.repository.CategoryContentRepository;
@@ -45,6 +46,18 @@ public class CategoryContentService {
 	public void allCatgory() {
 		
 		List<Category> categoryAll = categoryRepository.findAll();
+	}
+	
+	// 카테고리 수정
+	public void updateContent(CategoryUpdateDto dto) {
+		 String[] id = dto.getId().split(",");
+		 String[] type = dto.getType().split(",");
+			
+		 for (int i = 0; i < id.length; i++) {
+			 long categoryId = Long.parseLong(id[i]);
+			 Category category = categoryRepository.findCategoryById(categoryId);
+			 category.setType(type[i]);
+		}
 	}
 	
 }

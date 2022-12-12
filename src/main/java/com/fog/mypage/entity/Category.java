@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fog.mypage.dto.CategoryUpdateDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,7 +31,5 @@ public class Category {
     @Column(unique = true,name="category_type")
     private String type;
     
-    public void updateCategory() {
-    	
-    }
+
 }

@@ -364,7 +364,8 @@ body {
 			</section>
 		</div>
 		<div
-			th:uless="${#strings.equals(fogid, memMember.fogid)} or ${#strings.equals(member.AllPublicYn, 'Y')}">
+			th:if="!(${#strings.equals(fogid, memMember.fogid)}) and ${#strings.equals(member.AllPublicYn, 'N')}">
+			<!-- th:uless="${#strings.equals(fogid, memMember.fogid)} or ${#strings.equals(member.AllPublicYn, 'Y')}">-->
 			<p
 				style="margin-top: 400px; margin-left: 350px; margin-bottom: 35px; font-weight: bold; font-size: 52px;">
 				공개되지 않은 포그입니다.</p>
